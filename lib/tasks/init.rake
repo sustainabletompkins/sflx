@@ -16,4 +16,11 @@ namespace :init do
     List.create(:category_id=>5, :name=>'Sharing & Trading', :description => 'share and trade')
     List.create(:category_id=>5, :name=>'Green Products & Services', :description => 'green')
   end
+
+  task :add_tags => :environment do
+
+    ActsAsTaggableOn::Tag.create(:name => "solar")
+    ActsAsTaggableOn::Tag.create(:name => "reuse")
+
+  end
 end

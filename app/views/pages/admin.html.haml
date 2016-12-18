@@ -33,18 +33,21 @@
           %br
           = f.collection_check_boxes :list_ids, List.all, :id, :name do |b|
             .collection-check-box
-              .row
-                .large-6.columns
-                  = b.label
-                .large-6.columns
-                  = b.check_box
+              = b.check_box
+              = b.label
 
+        %hr
+        %h4 Add Tags
+        =f.hidden_field :tag_list
+        -@tags.each do |tag|
+          .tag-choice=tag
         =f.submit "add listing", :class => "button", :id => 'submit-listing'
 
 #address-needed.reveal-modal{"data-reveal" => ""}
   %p
 
 :javascript
+  var tags = [];
   $(document).on('ready page:load', function(){
 
     initialize();
@@ -62,6 +65,19 @@
 
   });
 
+  $('.tag-choice').on('click', function(e) {
+    if($(this).hasClass('selected')) {
+      console.log($(this).html());
+      tags.pop($(this).html());
+    }
+    else {
+      tags.push($(this).html());
+    }
+    $(this).toggleClass('selected');
+    console.log(tags);
+    tag_list = tags.toString();
+    $('#listing_tag_list').val(tag_list);
+  });
   var initialize;
   initialize = function() {
     var autocomplete, input, map, options;

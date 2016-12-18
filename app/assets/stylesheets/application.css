@@ -19,11 +19,29 @@
 input {
 	width: 100%;
 }
-input[type="checkbox"]
-{
-    vertical-align:middle;
-}
+
 .collection-check-box {
-	width: 45%;
+	width: 33%;
 	display:inline-block;
+
+	input[type="label"]
+	{
+	    display: inline-block;
+	}
+}
+.collection-check-box input[type="checkbox"]
+	{
+	    display: inline-block;
+	    width: 20px;
+	}
+
+.tag-choice {
+	background-color: #bbb;
+	padding: 4px 6px;
+	display:inline-block;
+	margin-right: 5px;
+	margin-bottom: 4px;
+}
+.tag-choice.selected {
+	background-color: #c0c;
 }
