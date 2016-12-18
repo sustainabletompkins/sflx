@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207063514) do
+ActiveRecord::Schema.define(version: 20161218153854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,29 @@ ActiveRecord::Schema.define(version: 20161207063514) do
     t.string "name"
     t.string "description"
   end
+
+  create_table "listings", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "website"
+    t.string   "city"
+    t.integer  "zip_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "listings_lists", id: false, force: :cascade do |t|
+    t.integer "list_id",    null: false
+    t.integer "listing_id", null: false
+  end
+
+  add_index "listings_lists", ["list_id", "listing_id"], name: "index_listings_lists_on_list_id_and_listing_id", using: :btree
+  add_index "listings_lists", ["listing_id", "list_id"], name: "index_listings_lists_on_listing_id_and_list_id", using: :btree
 
   create_table "lists", force: :cascade do |t|
     t.string  "name"

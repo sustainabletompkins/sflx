@@ -1,0 +1,93 @@
+= javascript_include_tag "https://maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=places"
+.row
+  .large-12.columns
+    #map-canvas
+    #form{:style=>"position:relative; margin-top:0px;"}
+
+      =form_for @listing do |f|
+        .meal-section
+          %h5 Add a new listing
+          .row
+            .large-6.columns
+              %label Title
+              =f.text_field :title
+              %label Description
+              =f.text_area :description, :rows => "5"
+              %label Address
+              =f.text_field :address, :class => 'address'
+            .large-6.columns
+              %label Website URL
+              =f.text_field :website
+              %label Phone Number
+              =f.text_field :phone
+              %label Contact Email
+              =f.text_field :email
+
+              =f.hidden_field :latitude
+              =f.hidden_field :longitude
+              =f.hidden_field :city
+              #notice
+        %hr
+        .field
+          %h4 Which lists does this belong in?
+          %br
+          = f.collection_check_boxes :list_ids, List.all, :id, :name do |b|
+            .collection-check-box
+              .row
+                .large-6.columns
+                  = b.label
+                .large-6.columns
+                  = b.check_box
+
+        =f.submit "add listing", :class => "button", :id => 'submit-listing'
+
+#address-needed.reveal-modal{"data-reveal" => ""}
+  %p
+
+:javascript
+  $(document).on('ready page:load', function(){
+
+    initialize();
+    $('#submit-listing').on('click', function(e) {
+      e.preventDefault();
+      console.log($('#listing_latitude').val());
+      if($('#listing_latitude').val().length > 0) {
+        $('#new_listing').submit();
+      }
+      else {
+        $('#notice').html("Hmmm, it looks like we can't recognize your address.  Please select one of the address suggested in the dropdown that appears as you type.");
+      }
+
+    });
+
+  });
+
+  var initialize;
+  initialize = function() {
+    var autocomplete, input, map, options;
+    input = $('.address');
+    options = {
+      language: 'en-GB',
+      center: new google.maps.LatLng(42.446877, -76.505407),
+      zoom: 11
+    };
+    autocomplete = new google.maps.places.Autocomplete(input[0], options);
+    map = new google.maps.Map(document.getElementById('map-canvas'), options);
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      var place = autocomplete.getPlace();
+      console.log(place.address_components[2]);
+      console.log(place.geometry);
+      console.log(place.geometry.location);
+      console.log(place.geometry.location.lat());
+      console.log(place.geometry.location.lat);
+
+      $('#listing_latitude').attr("value",place.geometry.location.lat());
+      $('#listing_longitude').attr("value",place.geometry.location.lng());
+      $('#listing_city').attr("value",place.address_components[2].long_name + "," + place.address_components[4].short_name);
+
+    })
+
+    return google.maps.event.addListener(map, 'bounds_changed', function() {
+      autocomplete.bindTo('bounds', map);
+    });
+  };

@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   end
 
   def admin
-
+    @listing = Listing.new
   end
 
 

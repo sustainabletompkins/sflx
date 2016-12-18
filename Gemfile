@@ -18,6 +18,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
 gem 'haml'
+gem 'responders', '~> 2.0'
+gem 'foundation-rails', '5.4.5'
+gem 'foundation-icons-sass-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
