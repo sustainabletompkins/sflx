@@ -67,14 +67,13 @@
 
   $('.tag-choice').on('click', function(e) {
     if($(this).hasClass('selected')) {
-      console.log($(this).html());
+
       tags.pop($(this).html());
     }
     else {
       tags.push($(this).html());
     }
     $(this).toggleClass('selected');
-    console.log(tags);
     tag_list = tags.toString();
     $('#listing_tag_list').val(tag_list);
   });
@@ -91,11 +90,6 @@
     map = new google.maps.Map(document.getElementById('map-canvas'), options);
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
-      console.log(place.address_components[2]);
-      console.log(place.geometry);
-      console.log(place.geometry.location);
-      console.log(place.geometry.location.lat());
-      console.log(place.geometry.location.lat);
 
       $('#listing_latitude').attr("value",place.geometry.location.lat());
       $('#listing_longitude').attr("value",place.geometry.location.lng());
