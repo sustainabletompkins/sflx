@@ -205,4 +205,24 @@ input {
     font-size: 40px;
     color: #c0c;
   }
+  h2 {
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+#lists {
+  h3 {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+}
+
+.list {
+  cursor: pointer;
+  color: red;
+}
+.list:hover {
+  cursor: pointer;
+  color: green;
 }

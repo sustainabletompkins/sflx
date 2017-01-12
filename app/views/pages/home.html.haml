@@ -1,12 +1,21 @@
-%h2 Sustainable Finger Lakes
-
-
+#lists
+  #category-title
+    %h2 hey
+  #category-lists
+    yuou
+    yldf
 #map_wrapper
   #map_canvas.mapping
 
 :css
+  #lists {
+    float:left;
+    margin: 10px 15px 10px 20px;
+    font-size: .9em;
+  }
   #map_wrapper {
-      height: 400px;
+      height: 500px;
+      margin-left: 300px;
   }
 
   #map_canvas {
@@ -19,7 +28,11 @@
 / only if you need custom infoboxes
 
 :javascript
+  $(document).on('click', '.list', function() {
+    var selection = $(this).data('list-id');
+    $.get('list/'+selection);
 
+  });
   initialize();
   function setMapOnAll(map) {
     for (var i = 0; i < gmarkers.length; i++) {
@@ -28,6 +41,9 @@
   }
   function showMarkers() {
     gmarkers = [];
+
+    // Display multiple markers on a map
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
     for( i = 0; i < markers.length; i++ ) {
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
@@ -68,12 +84,8 @@
 
       // Multiple Markers
       markers = #{raw @hash};
+      infoWindowContent = #{raw @info};
 
-      // Info Window Content
-      var infoWindowContent = #{raw @info};
-
-      // Display multiple markers on a map
-      var infoWindow = new google.maps.InfoWindow(), marker, i;
 
       // Loop through our array of markers & place each one on the map
       showMarkers();

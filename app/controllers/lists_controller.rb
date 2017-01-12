@@ -1,12 +1,10 @@
-class CategoriesController < ApplicationController
+class ListsController < ApplicationController
 
   respond_to :html
 
   def show
-    @category = Category.find(params[:id])
-    @lists = @category.lists
-    @listings = @category.listings
-    puts @listings
+    @list = List.find(params[:id])
+    @listings = @list.listings
     @hash = []
     @info = []
     @listings.each do |l|
