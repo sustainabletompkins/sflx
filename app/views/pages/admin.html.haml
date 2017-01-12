@@ -1,4 +1,5 @@
 = javascript_include_tag "https://maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=places"
+%script{:src => "http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"}
 .row
   .large-12.columns
     #map-canvas
@@ -10,7 +11,7 @@
           .row
             .large-6.columns
               %label Title
-              =f.text_field :title
+              =f.text_field :title,'', :required, :data-msg="Please fill this field"
               %label Description
               =f.text_area :description, :rows => "5"
               %label Address
@@ -63,6 +64,21 @@
 
     });
 
+  });
+  $("#new_listing").validate({
+    rules: {
+      // simple rule, converted to {required:true}
+      "listing[title]": "required",
+      description: "required",
+      email: {
+        required: true,
+        email: true
+      },
+      phone: {
+        required: true,
+        phoneUS: true
+      }
+    }
   });
 
   $('.tag-choice').on('click', function(e) {

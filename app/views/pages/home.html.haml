@@ -1,11 +1,5 @@
 %h2 Sustainable Finger Lakes
--@categories.each do |cat|
-  .category
-    %h3=cat.name
-    -cat.lists.each do |list|
-      %ul=list.name
-      -list.listings.each do |listing|
-        %li=listing.title
+
 
 #map_wrapper
   #map_canvas.mapping
@@ -19,7 +13,7 @@
       width: 100%;
       height: 100%;
   }
-= javascript_include_tag "https://maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=places"
+
 %script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
 %script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
 / only if you need custom infoboxes
@@ -27,11 +21,44 @@
 :javascript
 
   initialize();
+  function setMapOnAll(map) {
+    for (var i = 0; i < gmarkers.length; i++) {
+      gmarkers[i].setMap(null);
+    }
+  }
+  function showMarkers() {
+    gmarkers = [];
+    for( i = 0; i < markers.length; i++ ) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
+        gmarkers.push(marker);
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
 
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+    }
+
+    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+        this.setZoom(14);
+        google.maps.event.removeListener(boundsListener);
+    });
+  }
   function initialize() {
-      var map;
-      var bounds = new google.maps.LatLngBounds();
-      var mapOptions = {
+
+      bounds = new google.maps.LatLngBounds();
+      mapOptions = {
           mapTypeId: 'roadmap'
       };
 
@@ -40,43 +67,15 @@
       map.setTilt(45);
 
       // Multiple Markers
-      var markers = #{raw @hash};
+      markers = #{raw @hash};
 
       // Info Window Content
       var infoWindowContent = #{raw @info};
-      console.log(infoWindowContent);
-
-      console.log(infoWindowContent);
 
       // Display multiple markers on a map
       var infoWindow = new google.maps.InfoWindow(), marker, i;
 
       // Loop through our array of markers & place each one on the map
-      for( i = 0; i < markers.length; i++ ) {
-          var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-          bounds.extend(position);
-          marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              title: markers[i][0]
-          });
-
-          // Allow each marker to have an info window
-          google.maps.event.addListener(marker, 'click', (function(marker, i) {
-              return function() {
-                  infoWindow.setContent(infoWindowContent[i][0]);
-                  infoWindow.open(map, marker);
-              }
-          })(marker, i));
-
-          // Automatically center the map fitting all markers on the screen
-          map.fitBounds(bounds);
-      }
-
-      // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-      var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-          this.setZoom(14);
-          google.maps.event.removeListener(boundsListener);
-      });
+      showMarkers();
 
   }

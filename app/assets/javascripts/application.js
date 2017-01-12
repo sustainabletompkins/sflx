@@ -16,5 +16,11 @@
 //= require_tree .
 //= require underscore
 //= require gmaps/google
-
+//= require jquery.validate
 $(function(){ $(document).foundation(); });
+var markers;
+var map;
+var gmarkers = [];
+
+var bounds;
+var mapOptions;
