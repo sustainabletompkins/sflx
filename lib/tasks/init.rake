@@ -73,7 +73,7 @@ namespace :init do
 
     ActsAsTaggableOn::Tag.create(:name => "low-carbon")
     ActsAsTaggableOn::Tag.create(:name => "disinvestment")
-    ActsAsTaggableOn::Tag.create(:name => "distributed energy")
+    ActsAsTaggableOn::Tag.create(:name => "distributed-energy")
     ActsAsTaggableOn::Tag.create(:name => "organic")
     ActsAsTaggableOn::Tag.create(:name => "CSAs")
     ActsAsTaggableOn::Tag.create(:name => "permaculture")
