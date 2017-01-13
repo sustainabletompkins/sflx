@@ -10,6 +10,8 @@ class ListingsController < ApplicationController
     else
       render :new
     end
+
+    redirect_to '/admin'
   end
 
   def destroy
