@@ -2,8 +2,15 @@ class PagesController < ApplicationController
 
   def home
     @categories = Category.all
+    @listings = Listing.last(10)
 
-    @listings = Listing.all
+  end
+
+  def map
+    @categories = Category.all
+    @category = Category.find_by_name(params[:category])
+    @lists = @category.lists
+    @listings = @category.listings
     @hash = []
     @info = []
     @listings.each do |l|

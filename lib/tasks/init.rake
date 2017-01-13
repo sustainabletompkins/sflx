@@ -117,8 +117,10 @@ namespace :init do
     ActsAsTaggableOn::Tag.create(:name => "youth-empowerment")
     ActsAsTaggableOn::Tag.create(:name => "participatory-budgeting")
     ActsAsTaggableOn::Tag.create(:name => "alternatives-to-incarceration")
-    ActsAsTaggableOn::Tag.create(:name => "")
-    ActsAsTaggableOn::Tag.create(:name => "")
+    ActsAsTaggableOn::Tag.create(:name => "water-quality")
+    ActsAsTaggableOn::Tag.create(:name => "air-quality")
+    ActsAsTaggableOn::Tag.create(:name => "climate-change")
+    ActsAsTaggableOn::Tag.create(:name => "social-justice")
 
 
 
