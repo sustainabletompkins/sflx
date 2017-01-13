@@ -15,6 +15,7 @@ class PagesController < ApplicationController
   end
 
   def admin
+    @categories = Category.all
     @listing = Listing.new
     @tags = ActsAsTaggableOn::Tag.all
   end

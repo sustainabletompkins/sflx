@@ -6,6 +6,7 @@
     yldf
 #map_wrapper
   #map_canvas.mapping
+#listings
 
 :css
   #lists {
@@ -14,10 +15,14 @@
     font-size: .9em;
   }
   #map_wrapper {
-      height: 500px;
+      height: 350px;
       margin-left: 300px;
+      margin-right: 15px;
   }
-
+  #listings {
+    margin-left: 300px;
+      margin-right: 15px;
+  }
   #map_canvas {
       width: 100%;
       height: 100%;
@@ -28,9 +33,16 @@
 / only if you need custom infoboxes
 
 :javascript
-  $(document).on('click', '.list', function() {
-    var selection = $(this).data('list-id');
+  $(document).on('click', '.list-name', function() {
+    var selection = $(this).parent().data('list-id');
     $.get('list/'+selection);
+
+  });
+  $(document).on('click', '.tag', function() {
+    list = $(this).parent().parent();
+    console.log(list.data('list-id'));
+    var tag = $(this).data('tag-id');
+    $.get('list/'+list.data('list-id')+'/tags/'+tag);
 
   });
   initialize();

@@ -1,4 +1,9 @@
 markers = #{raw @hash};
 infoWindowContent = #{raw @info};
+$(".list").removeClass('active');
+$(".list .tags").empty();
+$("#list_#{@list.id}").addClass('active');
+$("#list_#{@list.id} .tags").html("#{j render :partial=>'shared/tag', :collection=>@tags, :as => :tag}");
+
 setMapOnAll(null);
 showMarkers();

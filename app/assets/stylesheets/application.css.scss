@@ -110,6 +110,7 @@ main{
 
   dd {
     position: relative;
+      z-index: 1200;
 
     ul {
       display: none;
@@ -222,7 +223,37 @@ input {
   cursor: pointer;
   color: red;
 }
+.list.active {
+  color: green;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
 .list:hover {
   cursor: pointer;
   color: green;
+}
+
+.tags {
+  margin-left: 8px;
+  color: black;
+}
+.tag {
+  font-weight: normal;
+}
+.tag:hover {
+  cursor: pointer;
+  color: green;
+  font-weight:bold;
+}
+#listings {
+  margin-top: 12px;
+}
+
+.listing {
+  width: 45%;
+  margin-right: 2%;
+  float: left;
+  background-color: #eee;
+  padding: 10px;
 }

@@ -11,7 +11,7 @@
           .row
             .large-6.columns
               %label Title
-              =f.text_field :title,'', :required, :data-msg="Please fill this field"
+              =f.text_field :title
               %label Description
               =f.text_area :description, :rows => "5"
               %label Address
@@ -65,21 +65,7 @@
     });
 
   });
-  $("#new_listing").validate({
-    rules: {
-      // simple rule, converted to {required:true}
-      "listing[title]": "required",
-      description: "required",
-      email: {
-        required: true,
-        email: true
-      },
-      phone: {
-        required: true,
-        phoneUS: true
-      }
-    }
-  });
+
 
   $('.tag-choice').on('click', function(e) {
     if($(this).hasClass('selected')) {
