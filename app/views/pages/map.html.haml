@@ -8,7 +8,9 @@
     #map_wrapper
       #map_canvas.mapping
     #listings
-
+      %h4 #{@category.name} Listings
+      -if @listings.count > 0
+        =render @listings
 :css
   #lists {
     float:left;

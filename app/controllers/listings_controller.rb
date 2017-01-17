@@ -5,6 +5,7 @@ class ListingsController < ApplicationController
   def create
 
     @listing = Listing.create(listing_params)
+    @listing.address = @listing.address[0..-20]
     if @listing.save
       respond_with @listing
     else

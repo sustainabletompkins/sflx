@@ -1,9 +1,5 @@
 :javascript
-  $('.category-load').on('click', function() {
-    var selection = $(this).text();
-    window.location = '/map/'+selection;
 
-  });
   $('.category-select').on('click', function() {
     var selection = $(this).data('cat-id');
     $.get('/category/'+selection);

@@ -51,11 +51,11 @@
   $(document).on('ready page:load', function(){
 
     initialize();
-    $('#notice').text('');
+
     $('#submit-listing').on('click', function(e) {
       e.preventDefault();
       valid = false;
-
+      $('#notice').empty();
       if($('#listing_phone').val().length == 14) {
         console.log('valid phone');
         valid = true;
@@ -72,6 +72,10 @@
         }
       }
       if($('#listing_website').val().length > 0) {
+        console.log($('#listing_website').val().substring(0,4));
+        if($('#listing_website').val().substring(0,3) != 'http') {
+          $('#listing_website').val('http://'+$('#listing_website').val());
+        }
         if(isValidUrl($('#listing_website').val())) {
           valid = true;
           console.log('valid website');
@@ -82,11 +86,13 @@
           console.log('invalid website');
         }
       }
+      console.log(valid);
       if($('#listing_title').val().length < 3 || $('#listing_description').val().length < 5) {
         $('#notice').text('Please enter a title AND description.');
+        valid = false;
       }
       else {
-        valid=false;
+        valid=true;
 
       }
       if(!valid) {
