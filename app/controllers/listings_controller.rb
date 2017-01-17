@@ -7,12 +7,12 @@ class ListingsController < ApplicationController
     @listing = Listing.create(listing_params)
     @listing.address = @listing.address[0..-20]
     if @listing.save
-      respond_with @listing
+      redirect_to '/admin'
     else
       render :new
     end
 
-    redirect_to '/admin'
+
   end
 
   def destroy
