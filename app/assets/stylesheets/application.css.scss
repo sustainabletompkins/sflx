@@ -220,6 +220,10 @@ input {
   vertical-align: top;
 }
 
+#content {
+  margin-top: 70px;
+}
+
 #header {
   i {
     font-size: 40px;
@@ -296,4 +300,11 @@ input {
   float: left;
   background-color: #eee;
   padding: 10px;
+}
+
+#notice {
+  color: red;
+  font-weight: bold;
+  background-color: #eee;
+  padding: 7px;
 }
