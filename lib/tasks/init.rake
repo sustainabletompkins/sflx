@@ -63,9 +63,9 @@ namespace :init do
   task :seed_tags => :environment do
 
 
-    #ActsAsTaggableOn::Tag.create(:name => "reuse")
+    ActsAsTaggableOn::Tag.create(:name => "reuse")
     ActsAsTaggableOn::Tag.create(:name => "reduce")
-    #ActsAsTaggableOn::Tag.create(:name => "solar")
+    ActsAsTaggableOn::Tag.create(:name => "solar")
     ActsAsTaggableOn::Tag.create(:name => "wind")
     ActsAsTaggableOn::Tag.create(:name => "hydro")
     ActsAsTaggableOn::Tag.create(:name => "biofuel")
@@ -121,18 +121,6 @@ namespace :init do
     ActsAsTaggableOn::Tag.create(:name => "air-quality")
     ActsAsTaggableOn::Tag.create(:name => "climate-change")
     ActsAsTaggableOn::Tag.create(:name => "social-justice")
-
-
-
-
-
-
-
-
-
-
-
-
 
   end
 end
