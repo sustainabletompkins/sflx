@@ -15,6 +15,12 @@ class ListingsController < ApplicationController
 
   end
 
+  def edit
+    @listing = Listing.find(params[:id])
+    @categories = Category.all
+    @tags = ActsAsTaggableOn::Tag.all
+  end
+
   def destroy
     @listing = Listing.unscoped.where(:slug=>params[:id]).first
     if @listing.destroy
@@ -23,9 +29,9 @@ class ListingsController < ApplicationController
   end
 
   def update
-    @listing = Listing.unscoped.where(:slug=>params[:id]).first
+    @listing = Listing.find(params[:id])
     if @listing.update_attributes(listing_params)
-      respond_with(@listing)
+      render 'edited'
     end
   end
 

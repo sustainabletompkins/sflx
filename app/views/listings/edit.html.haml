@@ -1,61 +1,68 @@
 .row
   .large-12.columns
     #map-canvas
-    #form{:style=>"position:relative; margin-top:0px;"}
+    =form_for @listing, :remote=>:true do |f|
+      .meal-section
+        %h5 Add a new listing
+        .row
+          .large-6.columns
+            %label Title
+            =f.text_field :title
+            %label Description
+            =f.text_area :description, :rows => "5"
+            %label Address
+            =f.text_field :address, :class => 'address'
+          .large-6.columns
+            %label Website URL
+            =f.text_field :website
+            %label Phone Number
+            =f.text_field :phone
+            %label Contact Email
+            =f.text_field :email
 
-      =form_for @listing do |f|
-        .meal-section
-          %h5 Add a new listing
-          .row
-            .large-6.columns
-              %label Title
-              =f.text_field :title
-              %label Description
-              =f.text_area :description, :rows => "5"
-              %label Address
-              =f.text_field :address, :class => 'address'
-            .large-6.columns
-              %label Website URL
-              =f.text_field :website
-              %label Phone Number
-              =f.text_field :phone
-              %label Contact Email
-              =f.text_field :email
+            =f.hidden_field :latitude
+            =f.hidden_field :longitude
+            =f.hidden_field :city
+            #notice
+      %hr
+      .field
+        %h4 Which lists does this belong in?
+        %br
+        -Category.all.each do |c|
+          .category-list
+            %b=c.name
+            = f.collection_check_boxes :list_ids, c.lists, :id, :name do |b|
+              .collection-check-box
+                = b.check_box
+                = b.label
 
-              =f.hidden_field :latitude
-              =f.hidden_field :longitude
-              =f.hidden_field :city
-              #notice
-        %hr
-        .field
-          %h4 Which lists does this belong in?
-          %br
-          -Category.all.each do |c|
-            .category-list
-              %b=c.name
-              = f.collection_check_boxes :list_ids, c.lists, :id, :name do |b|
-                .collection-check-box
-                  = b.check_box
-                  = b.label
+      %hr
+      %h4 Add Tags
+      %label Tag relevant keywords or topics
+      #tag-list
+      %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+      .autocomplete-options
+      =f.hidden_field :tag_list
+      -@tags.each do |tag|
+        .tag-choice{:'data-tag'=>tag}=tag
+      #edit-msg
+      =f.submit "save listing", :class => "button", :id => 'save-listing'
 
-        %hr
-        %h4 Add Tags
-        %label Tag relevant keywords or topics
-        #tag-list
-        %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
-        .autocomplete-options
-        =f.hidden_field :tag_list
-        -@tags.each do |tag|
-          .tag-choice{:'data-tag'=>tag}=tag
-        =f.submit "add listing", :class => "button", :id => 'submit-listing'
-
-#address-needed.reveal-modal{"data-reveal" => ""}
-  %p
 
 :javascript
   $('#listing_phone').mask('(000) 000-0000');
   var tags = [];
+  tags = "#{escape_javascript @listing.tag_list.to_json}";
+  console.log(tags);
+  str = '';
+  jQuery.each(JSON.parse(tags), function(i,val) {
+    $('#tag-list').append('<div class="tag" value="' + val + '">' + val + '<div class="del">X</div></div>');
+    str += val + ',';
 
+  });
+  str = str.substring(0,str.length-1);
+  $('#listing_tag_list').val(str);
+  console.log(tags);
   $(document).on('ready page:load', function(){
 
     initialize();
