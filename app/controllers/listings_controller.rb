@@ -29,7 +29,12 @@ class ListingsController < ApplicationController
     end
   end
 
-
+  def autocomplete_tags
+    @tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render :json => @tags.collect{|tag| {:id => tag.name, :name => tag.name}} }
+    end
+  end
   private
 
   def listing_params

@@ -30,16 +30,23 @@
         .field
           %h4 Which lists does this belong in?
           %br
-          = f.collection_check_boxes :list_ids, List.all, :id, :name do |b|
-            .collection-check-box
-              = b.check_box
-              = b.label
+          -Category.all.each do |c|
+            .category-list
+              %b=c.name
+              = f.collection_check_boxes :list_ids, c.lists, :id, :name do |b|
+                .collection-check-box
+                  = b.check_box
+                  = b.label
 
         %hr
         %h4 Add Tags
+        %label Tag relevant keywords or topics
+        #tag-list
+        %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+        .autocomplete-options
         =f.hidden_field :tag_list
         -@tags.each do |tag|
-          .tag-choice=tag
+          .tag-choice{:'data-tag'=>tag}=tag
         =f.submit "add listing", :class => "button", :id => 'submit-listing'
 
 #address-needed.reveal-modal{"data-reveal" => ""}
@@ -78,15 +85,12 @@
         }
         if(isValidUrl($('#listing_website').val())) {
           valid = true;
-          console.log('valid website');
         }
         else {
           $('#notice').text('The url you entered is not valid');
           valid = false;
-          console.log('invalid website');
         }
       }
-      console.log(valid);
       if($('#listing_title').val().length < 3 || $('#listing_description').val().length < 5) {
         $('#notice').text('Please enter a title AND description.');
         valid = false;
@@ -116,18 +120,7 @@
   });
 
 
-  $('.tag-choice').on('click', function(e) {
-    if($(this).hasClass('selected')) {
 
-      tags.pop($(this).html());
-    }
-    else {
-      tags.push($(this).html());
-    }
-    $(this).toggleClass('selected');
-    tag_list = tags.toString();
-    $('#listing_tag_list').val(tag_list);
-  });
   var initialize;
   initialize = function() {
     var autocomplete, input, map, options;
@@ -165,3 +158,66 @@
       var urlregex = new RegExp("^(?!www | www\.)[A-Za-z0-9_-]+\.+[A-Za-z0-9.\/%&=\?_:;-]+$");
       return urlregex.test(textval);
   }
+
+  $( document ).on('keyup','.autocomplete', function() {
+      if($(this).val().length > 2) {
+        $.get('/autocomplete/tags',{q:$(this).val()}, function(data) {
+          $('.autocomplete-options').empty();
+          $('.autocomplete-options').show();
+          $.each(data, function(index,value) {
+            console.log(index,value);
+            $('.autocomplete-options').append('<div class="autocomplete-option">'+value.name+'</div>');
+          });
+
+        });
+      }
+      else {
+        $('.autocomplete-options').empty();
+        $('.autocomplete-options').hide();
+      }
+  });
+  $( document ).on( 'click', '.autocomplete-option', function () {
+    $('#tag-list').append('<div class="tag" value="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
+    $('.autocomplete-options').empty();
+    $('.autocomplete-options').hide();
+    str = '';
+    $('#tag-list').find('.tag').each(function() {
+
+      str += $(this).attr("value") + ',';
+    });
+    str = str.substring(0,str.length-1);
+    $('#listing_tag_list').val(str);
+    $('*[data-tag="'+$(this).text()+'"]').addClass('selected');
+    setTimeout(function(){
+        $('.autocomplete').val('');
+        $('.autocomplete').focus();
+
+    }, 100);
+  });
+  $( document ).on( 'click', '.del', function (event) {
+    $(event.target).parent().remove();
+
+    str = '';
+    $('#tag-list').find('.tag').each(function() {
+      str += $(this).attr("value") + ',';
+    });
+    str = str.substring(0,str.length-1);
+    $('#listing_tag_list').val(str);
+    $('.autocomplete').focus();
+  })
+  $('.tag-choice').on('click', function(e) {
+    if($(this).hasClass('selected')) {
+
+      $(event.target).remove();
+    }
+    else {
+      $('#tag-list').append('<div class="tag" value="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
+    }
+    $(this).toggleClass('selected');
+    str = '';
+    $('#tag-list').find('.tag').each(function() {
+      str += $(this).attr("value") + ',';
+    });
+    str = str.substring(0,str.length-1);
+    $('#listing_tag_list').val(str);
+  });

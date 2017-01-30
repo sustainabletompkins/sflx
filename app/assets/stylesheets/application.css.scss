@@ -179,7 +179,7 @@ input {
 }
 
 .collection-check-box {
-	width: 33%;
+	width: 100%;
 	display:inline-block;
 
 	input[type="label"]
@@ -263,6 +263,15 @@ input {
   }
 }
 
+.category-list {
+  padding: 3px;
+  margin-bottom: 10px;
+  width: 33%;
+  display: inline-block;
+    vertical-align: top;
+
+}
+
 .list {
   cursor: pointer;
   color: red;
@@ -289,8 +298,6 @@ input {
 }
 .tag:hover {
   cursor: pointer;
-  color: green;
-  font-weight:bold;
 }
 #listings {
   margin-top: 12px;
@@ -313,10 +320,91 @@ input {
     display: block;
   }
 }
+.autocomplete-options {
+  margin-top: -10px;
+  font-size: 16px;
+  min-width: 200px;
+  line-height: 18px;
+  color: #222;
+  display:none;
 
+}
+.autocomplete-option {
+  padding: 3px 8px;
+  border-bottom: 1px solid gray;
+
+}
+
+.autocomplete-option:hover {
+  padding: 3px 8px;
+  border-bottom: 1px solid gray;
+  background-color:#c0c;
+}
 #notice {
   color: red;
   font-weight: bold;
   background-color: #eee;
   padding: 7px;
+}
+
+
+#tag-list {
+  margin: 5px;
+}
+#tag-list div {
+  display: inline;
+}
+.tag {
+  padding: 4px 8px;
+  background-color: #4174c5;
+  color: #eee;
+  margin-right: 4px;
+  display: inline;
+  a {
+    color: #eee;
+  }
+  a:hover {
+    color: #fff;
+  }
+  .del {
+    cursor:pointer;
+    font-weight: bold;
+    margin-left: 5px;
+    color: #ccc;
+  }
+  .del:hover {
+    color: #000;
+  }
+}
+.tags{
+  margin:4px 0;
+  padding:0;
+  list-style:none;
+  display: block;
+}
+
+.tags li, .tags a{
+  float:left;
+  height:20px;
+  line-height:20px;
+  position:relative;
+  font-size:1.1em;
+}
+
+.tags a{
+  margin-left: 3px;
+  font-weight: 600;
+}
+.tags a:hover::after {
+  content: ' >';
+}
+.tags a:before{
+  content:"#";
+  float:left;
+  top:0;
+
+}
+
+.tags a:hover {
+  font-weight: 600;
 }

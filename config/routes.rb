@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   get '/category/:id' => 'categories#show', :as => :load_category
   get '/list/:id' => 'lists#show', :as => :load_list
   get '/list/:id/tags/:tag' => 'lists#tagged', :as => :load_list_by_tag
-
+  get '/autocomplete/tags' => 'listings#autocomplete_tags'
 end

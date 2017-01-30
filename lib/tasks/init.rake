@@ -89,7 +89,6 @@ namespace :init do
     ActsAsTaggableOn::Tag.create(:name => "microgrids")
 
 
-
     ActsAsTaggableOn::Tag.create(:name => "habitat-preservation")
     ActsAsTaggableOn::Tag.create(:name => "invasive-species")
     ActsAsTaggableOn::Tag.create(:name => "voluntary-simplicity")
