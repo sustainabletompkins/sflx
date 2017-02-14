@@ -1,9 +1,10 @@
 .listing[listing]
-  %h4=listing.title
-  %p=listing.description
-  %span=listing.address
-  %span=link_to listing.website, listing.website, :target=>'_blank'
-  %span=link_to listing.phone, "tel:+1#{listing.phone.gsub(/\D/, '')}"
-  %span=link_to listing.email, "mailto:#{listing.email}"
-  =link_to 'edit', edit_listing_path(listing)
+  .listing-title=listing.title
+  .listing-info
+    %p=listing.description
+    %span=listing.address
+    %span=link_to listing.website, listing.website, :target=>'_blank'
+    %span=link_to listing.phone, "tel:+1#{listing.phone.gsub(/\D/, '')}"
+    %span=link_to listing.email, "mailto:#{listing.email}"
+    =link_to 'edit', edit_listing_path(listing)
 

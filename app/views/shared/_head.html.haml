@@ -1,23 +1,12 @@
-.contain-to-grid.fixed
-  .row#header
-
-    .large-12.columns
-      .row
-        .large-1.medium-2.small-2.columns
-          %h2=link_to 'SFL',root_path
-        .large-11.columns
-
-          %dl.dropdown.left-side
-            %dt
-              %a
-                %span=@category.present? ? @category.name : 'Choose a category'
-            %dd
-              %ul
-                %li
-                  %a.default
-
-                -@categories.each do |cat|
-                  %li
-                    %a.category-select{:'data-cat-id'=>"#{cat.id}"}=cat.name
+.row#header
+  .large-12.columns
+    %h2=link_to 'SFL',root_path
+.row#menu-bar
+  .large-6.columns
+    #search
+      %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
+  .large-6.columns
+    #add-listing.right
+      + add a listing
 
 

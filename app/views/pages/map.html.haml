@@ -1,30 +1,56 @@
-.row
-  .large-12.columns
+.row{:style=>'background-color: #ffffff;'}
+  .large-3.columns
+    %dl.dropdown
+      %dt
+        %a
+          %span=@category.present? ? @category.name : 'Choose a category'
+      %dd
+        %ul
+          %li
+            %a.default
+
+          -@categories.each do |cat|
+            %li
+              %a.category-select{:'data-cat-id'=>"#{cat.id}"}=cat.name
+
     #lists
-      #category-title
-        %h4=@category.name
       #category-lists
         =render @lists
+  .large-9.columns#map-area
     #map_wrapper
       #map_canvas.mapping
     #listings
-      %h4 #{@category.name} Listings
-      -if @listings.count > 0
-        =render @listings
+      %h3.category-title #{@category.name} Listings
+      #current-listings
+        -if @listings.count > 0
+          =render @listings
+#add-listing-msg.reveal-modal{"data-reveal" => ""}
+  %h3 Add a listing to the map
+  %p<
+    Shortly, you will be able to submit new listings directly to the website, but for now, please submit new map entries by emailing
+    &nbsp
+    =link_to 'info@sustainabletompkins.org', 'mailto:info@sustainabletompkins.org'
+    &period; Thanks!
+  %a.close-reveal-modal ×
+
 :css
   #lists {
     float:left;
-    margin: 10px 15px 10px 5px;
+    margin: 10px 0px 0 8px;
     font-size: .9em;
   }
   #map_wrapper {
       height: 350px;
-      margin-left: 300px;
+      margin-left: 15px;
+      margin-top: 10px;
       margin-right: 15px;
+
+  }
+  #map-area {
+   background-color: #d8d8da;
   }
   #listings {
-      margin-left: 300px;
-      margin-right: 15px;
+      margin: 35px;
 
   }
   #map_canvas {
@@ -47,6 +73,17 @@
     console.log(list.data('list-id'));
     var tag = $(this).data('tag-id');
     $.get('/list/'+list.data('list-id')+'/tags/'+tag);
+
+  });
+  $(document).on('click', '#add-listing', function() {
+    $('#add-listing-msg').foundation('reveal','open');
+
+  });
+  $(document).on('click', '.listing-title', function() {
+
+    $(this).next().toggle();
+    $(this).toggleClass('expanded');
+
 
   });
   initialize();
@@ -106,4 +143,7 @@
       // Loop through our array of markers & place each one on the map
       showMarkers();
 
+  }
+   function hideIcon(self) {
+      self.style.backgroundImage = 'none';
   }

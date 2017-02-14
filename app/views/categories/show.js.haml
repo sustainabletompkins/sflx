@@ -1,7 +1,7 @@
 markers = #{raw @hash};
 infoWindowContent = #{raw @info};
-$('#category-title').html("<h4>#{@category.name}</h4>");
+$('.category-title').html("#{@title}");
 $('#category-lists').html("#{j render @lists}");
-$('#listings').html("#{j render @listings}");
+$('#current-listings').html("#{j render @listings}");
 setMapOnAll(null);
 showMarkers();

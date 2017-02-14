@@ -6,10 +6,8 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
     @listings = @list.listings
     @tag_ids = ActsAsTaggableOn::Tagging.joins("INNER JOIN tags ON tags.id = tag_id").where('taggable_id in (?)',@listings.map(&:id)).map(&:tag_id)
-    puts @tag_ids
     @tag_ids=@tag_ids.uniq
     @tags=ActsAsTaggableOn::Tag.where('id IN (?)',@tag_ids)
-    puts @tags
     @hash = []
     @info = []
     @listings.each do |l|
@@ -21,6 +19,7 @@ class ListsController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
+    @title = "#{@list.category.name} > #{@list.name}"
   end
 
   def tagged
@@ -37,5 +36,6 @@ class ListsController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
+    @title = "#{@list.category.name} > #{@list.name} > ##{params[:tag]}"
   end
 end

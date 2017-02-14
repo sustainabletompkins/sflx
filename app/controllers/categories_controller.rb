@@ -18,5 +18,6 @@ class CategoriesController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
+    @title = "#{@category.name}"
   end
 end
