@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get '/list/:id' => 'lists#show', :as => :load_list
   get '/list/:id/tags/:tag' => 'lists#tagged', :as => :load_list_by_tag
   get '/autocomplete/tags' => 'listings#autocomplete_tags'
+  get '/search/:q' => 'listings#search'
 end
