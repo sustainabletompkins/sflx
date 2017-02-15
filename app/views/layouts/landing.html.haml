@@ -27,5 +27,20 @@
       =yield
     .row#about.shadowed
       .large-12.columns
-        This is some dummy text
+        %p<
+          People are coming together across our region to relocalize the economy, to make our systems of local governance more just and democratic, and to protect our land, air, and water for future generations.  Our shared goal is to assure a future landscape in which all of us can thrive, despite the many changes underway.  This is a map of the sustainability and democracy movement in the Finger Lakes Region.  Use this Map to discover the creative and the compassionate, the solidarity builders and the self-reliant, the pioneers and the protectors of a sustainable future.
+          %b Add
+          what you are working on.
+          %b Plug
+          in where you can make a difference.
+          %b Spread
+          the word and share with others!
+      .large-12.columns{:style=>'text-align:center; text-transform:uppercase;'}
+        %h5 sponsored by
+      .large-4.columns
+        =image_tag('sponsor3.jpg')
+      .large-4.columns
+        =image_tag('sponsor2.jpg')
+      .large-4.columns
+        =image_tag('sponsor1.jpg')
     =render :partial => 'shared/footer'

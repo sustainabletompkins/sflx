@@ -3,9 +3,25 @@
     #category-buttons
       #home-search
         %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
-      -@categories.each do |cat|
-        .category-button
-          .category-load{:'data-cat-id'=>"#{cat.id}"}=cat.name
+
+      .category-button
+        .category-load{:'data-cat-id'=>5} Sustainable Economy
+      .category-button
+        .category-load{:'data-cat-id'=>8} Democracy & Justice
+      .category-button
+        .category-load{:'data-cat-id'=>6} Environmental Protection
+      .category-button
+        .category-load{:'data-cat-id'=>7} Healthy Culture
+      .category-button
+        .category-load{:'data-cat-id'=>1} Energy & Climate
+      .category-button
+        .category-load{:'data-cat-id'=>2} Food System
+      .category-button
+        .category-load{:'data-cat-id'=>3} Built Environment
+      .category-button
+        .category-load{:'data-cat-id'=>4} Transportation
+
+
 
 
 :javascript
