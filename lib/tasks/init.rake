@@ -122,4 +122,19 @@ namespace :init do
     ActsAsTaggableOn::Tag.create(:name => "social-justice")
 
   end
+
+  task :clean_urls => :environment do
+    @listings = Listing.all
+    @listings.each do |l|
+      puts l.website[0..14]
+      if l.website[0..14] == 'http://https://'
+        l.website = 'https://' + l.website.gsub('http://https://','')
+      elsif l.website[0..3] == 'http'
+        l.website = 'http://' + l.website.gsub('http://','')
+      elsif l.website[0..4] == 'https'
+        l.website = 'https://' + l.website.gsub('https://','')
+      end
+      l.save
+    end
+  end
 end

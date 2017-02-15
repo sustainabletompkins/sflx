@@ -87,8 +87,7 @@
         }
       }
       if($('#listing_website').val().length > 0) {
-        console.log($('#listing_website').val().substring(0,4));
-        if($('#listing_website').val().substring(0,3) != 'http' && $('#listing_website').val().substring(0,4) != 'https' ) {
+        if($('#listing_website').val().substring(0,4) != 'http') {
           $('#listing_website').val('http://'+$('#listing_website').val());
         }
         if(isValidUrl($('#listing_website').val())) {
