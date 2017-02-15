@@ -1,0 +1,16 @@
+.row{:style=>'background-color: #eee'}
+  .large-12.columns
+    %h4 All Listings
+    -@listings.each do |l|
+      .row
+        .large-5.columns
+          %p=l.title
+          %div=l.address
+          %div=l.website
+          %div=l.phone
+          %div=l.email
+        .large-5.columns{:style=>'background-color: #edd'}
+          %p=l.description
+        .large-2.columns
+          =link_to 'edit', edit_listing_path(l)
+      %hr

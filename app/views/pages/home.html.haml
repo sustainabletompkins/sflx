@@ -1,29 +1,12 @@
-.row#welcome
+.row#welcome.shadowed
   .large-12.columns
-    %h2.greeting.centered Explore local sustaianability movement
-    %span.centered
-      %dl.dropdown.homepage
-        %dt
-          %a
-            %span Choose a category
-        %dd.centered
-          %ul
-            %li
-              %a.default
-                =@category.present? ? @category.name : 'Choose a category'
-            -@categories.each do |cat|
-              %li
-                %a.category-load{:'data-cat-id'=>"#{cat.id}"}=cat.name
-    %div{:style=>'text-align:center;'}
-      %h4 Our Sponsors
-.row
-  .large-7.columns
-    %h3 Sustainability in the Finger Lakes
-    %p descriptive blah blah blah
-    %h4 Latest Entries
-    =render @listings
-  .large-5.columns
-    %h4 Upcoming Events
+    #category-buttons
+      #home-search
+        %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
+      -@categories.each do |cat|
+        .category-button
+          .category-load{:'data-cat-id'=>"#{cat.id}"}=cat.name
+
 
 :javascript
   $('.category-select').addClass('category-load');

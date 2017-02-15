@@ -3,13 +3,18 @@ class PagesController < ApplicationController
   def home
     @categories = Category.all
     @listings = Listing.last(10).reverse
+    render :layout => 'landing'
+  end
+
+  def list
+    @listings = Listing.all.order(title: :asc)
   end
 
   def map
     @categories = Category.all
     @category = Category.find_by_name(params[:category])
     @lists = @category.lists
-    @listings = @category.listings
+    @listings = @category.listings.order(title: :asc)
     @hash = []
     @info = []
     @listings.each do |l|

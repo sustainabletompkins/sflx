@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :listings
 
   get '/admin' => 'pages#admin'
+  get '/list' => 'pages#list'
   get '/map/:category' => 'pages#map', :as => :map
   get '/category/:id' => 'categories#show', :as => :load_category
   get '/list/:id' => 'lists#show', :as => :load_list
