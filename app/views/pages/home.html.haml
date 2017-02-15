@@ -2,7 +2,9 @@
   .large-12.columns
     #category-buttons
       #home-search
-        %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
+        =form_tag map_search_path, :method => :post do
+          =text_field_tag :q, '', :placeholder=>'search',:onchange=>"hideIcon(this);"
+          =hidden_field_tag :origin,'homepage'
 
       .category-button
         .category-load{:'data-cat-id'=>5} Sustainable Economy
@@ -30,4 +32,14 @@
     var selection = $(this).text();
     window.location = '/map/'+selection;
 
+  });
+
+  $('#home-search input').bind("enterKey",function(e){
+     $(this).parent().submit();
+  });
+  $('#home-search input').keyup(function(e){
+      if(e.keyCode == 13)
+      {
+          $(this).trigger("enterKey");
+      }
   });

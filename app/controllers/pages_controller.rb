@@ -12,9 +12,18 @@ class PagesController < ApplicationController
 
   def map
     @categories = Category.all
-    @category = Category.find_by_name(params[:category])
-    @lists = @category.lists
-    @listings = @category.listings.order(title: :asc)
+
+    if params[:origin] == 'homepage'
+
+      @listings = Listing.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
+      @title = "Searches for #{params[:q]}"
+    else
+      @category = Category.find_by_name(params[:category])
+      @lists = @category.lists
+      @listings = @category.listings.order(title: :asc)
+      @title = "#{@category.name} Listings"
+    end
+
     @hash = []
     @info = []
     @listings.each do |l|
@@ -26,7 +35,7 @@ class PagesController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
-    puts @info
+
   end
 
   def admin
