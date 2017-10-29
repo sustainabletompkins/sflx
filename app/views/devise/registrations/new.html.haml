@@ -1,0 +1,25 @@
+.row.shadowed{:style=>'background-color: #ffffff;'}
+  .large-12.columns
+    .row
+      .large-5.medium-5.columns
+        %h4 Create an account
+        = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          = devise_error_messages!
+          .field
+            = f.label :email_address
+            = f.email_field :email, autofocus: true
+          .field
+            = f.label :password
+            - if @minimum_password_length
+              %em
+                (#{@minimum_password_length} characters minimum)
+            = f.password_field :password, autocomplete: "off"
+          .field
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation, autocomplete: "off"
+          .actions
+            = f.submit "Sign up"
+        = render "devise/shared/links"
+      .large-7.medium-7.columns
+        %h3 Connect with the movement.
+        %p Join SFLX to connect with other people and organizations working towards a more sustainable finger lakes. blah blah blah

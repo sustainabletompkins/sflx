@@ -548,3 +548,26 @@ input:-moz-placeholder { /* Firefox 18- */
   font-weight: 300;
   padding: 4px 8px;
 }
+
+
+form input {
+  font-size: 22px;
+  font-weight: 600;
+  display: block;
+  width: 150px;
+}
+
+.field {
+  margin-bottom: 8px;
+}
+.actions {
+  margin: 20px 0;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  width:15px;
+}
+input label {
+  display: inline;
+}

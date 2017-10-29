@@ -2,6 +2,8 @@ class ListingsController < ApplicationController
 
   respond_to :html
 
+  before_action :authenticate_user!, :except => [:search,:autocomplete_tags]
+
   def create
 
     @listing = Listing.create(listing_params)
