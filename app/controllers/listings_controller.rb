@@ -7,15 +7,21 @@ class ListingsController < ApplicationController
   def create
 
     @listing = Listing.create(listing_params)
+    current_user.listings << @listing
     @listing.address = @listing.address[0..-20]
     if @listing.save
-      redirect_to '/admin'
+      redirect_to '/'
     else
       render :new
     end
-
-
   end
+
+  def new
+    @categories = Category.all
+    @listing = Listing.new
+    @tags = ActsAsTaggableOn::Tag.all
+  end
+
 
   def edit
     @listing = Listing.find(params[:id])

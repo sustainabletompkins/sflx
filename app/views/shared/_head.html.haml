@@ -7,7 +7,6 @@
     #search
       %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
   .large-6.columns
-    #add-listing.right
-      + add a listing
-
-
+    =link_to new_listing_path do
+      #add-listing.right
+        + add a listing

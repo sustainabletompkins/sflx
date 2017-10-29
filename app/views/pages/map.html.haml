@@ -25,14 +25,6 @@
       #current-listings
         -if @listings.count > 0
           =render @listings
-#add-listing-msg.reveal-modal{"data-reveal" => ""}
-  %h3 Add a listing to the map
-  %p<
-    Shortly, you will be able to submit new listings directly to the website, but for now, please submit new map entries by emailing
-    &nbsp
-    =link_to 'info@sustainabletompkins.org', 'mailto:info@sustainabletompkins.org'
-    &period; Thanks!
-  %a.close-reveal-modal ×
 
 :css
   #lists {
@@ -76,10 +68,7 @@
     $.get('/list/'+list.data('list-id')+'/tags/'+tag);
 
   });
-  $(document).on('click', '#add-listing', function() {
-    $('#add-listing-msg').foundation('reveal','open');
 
-  });
   $(document).on('click', '.listing-title', function() {
 
     $(this).next().toggle();
