@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
 
-  respond_to :html
+  respond_to :html, :js
 
   before_action :authenticate_user!, :except => [:search,:autocomplete_tags]
 
@@ -25,6 +25,11 @@ class ListingsController < ApplicationController
     @tags = ActsAsTaggableOn::Tag.all
   end
 
+  def approve
+    @listing = Listing.find(params[:id])
+    @listing.active = true
+    @listing.save
+  end
 
   def edit
     @listing = Listing.find(params[:id])
@@ -33,10 +38,8 @@ class ListingsController < ApplicationController
   end
 
   def destroy
-    @listing = Listing.unscoped.where(:slug=>params[:id]).first
-    if @listing.destroy
-      redirect_to listings_path
-    end
+    @listing = Listing.find(params[:id])
+    @listing.destroy
   end
 
   def update

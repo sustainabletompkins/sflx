@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   devise_for :users
   root 'pages#home'
 
-  resources :listings
+  resources :listings do
+    member do
+      get 'approve'
+    end
+  end
 
   get '/admin' => 'pages#admin'
   get '/list' => 'pages#list'

@@ -75,6 +75,11 @@ h2{
   margin-bottom: 2em; // Cosmetic value
 }
 
+.row {
+  background-color: #eee;
+}
+
+
 main{
   background: #333;
   width: 100%;
@@ -556,6 +561,7 @@ form input {
   display: block;
   width: 150px;
 }
+
 
 .field {
   margin-bottom: 8px;
