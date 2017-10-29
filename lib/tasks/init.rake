@@ -137,4 +137,13 @@ namespace :init do
       l.save
     end
   end
+
+  task :create_admin => :environment do
+    User.delete_all
+    User.new({:email => "info@sustainablefingerlakes.org", :password => "111111", :password_confirmation => "111111" }).save(:validate => false)
+    @user = User.all.first
+    Listing.all.each do |lis|
+      @user.listings << lis
+    end
+  end
 end

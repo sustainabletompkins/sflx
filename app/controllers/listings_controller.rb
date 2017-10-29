@@ -6,11 +6,14 @@ class ListingsController < ApplicationController
 
   def create
 
+    require 'uri'
+
     @listing = Listing.create(listing_params)
     current_user.listings << @listing
     @listing.address = @listing.address[0..-20]
+    @listing.active = true if current_user.email == 'info@sustainablefingerlakes.org'
     if @listing.save
-      redirect_to '/'
+      redirect_to URI.encode("/map/#{@listing.lists.first.category.name}")
     else
       render :new
     end
