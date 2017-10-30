@@ -18,4 +18,8 @@ Rails.application.routes.draw do
   get '/autocomplete/tags' => 'listings#autocomplete_tags'
   get '/search/:q' => 'listings#search'
   post '/map/search/' => 'pages#map', :as => :map_search
+
+  get '/tags/create' => 'tags#create', :as => :create_tag
+  get '/tags/:id/approve' => 'tags#approve', :as => :approve_tag
+  delete '/tags/:id/delete' => 'tags#destroy', :as => :tag
 end

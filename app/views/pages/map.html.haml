@@ -76,6 +76,19 @@
 
 
   });
+  $(document).on('click', '.show-suggestion', function() {
+    $(this).children('.tag-suggest').show();
+    $(this).find('input').focus();
+    listing_id = $(this).data('listing-id')
+    $(this).children('.tag-suggest').keypress(function(e) {
+      if(e.which == 13) {
+        $.get("#{create_tag_path}", {list_id:listing_id , name: $(this).find('input').val()});
+        $(this).find('input').val('');
+        $(this).attr("placeholder", "Type your answer here");
+      }
+    });
+
+  });
 
   $('#search input').bind("enterKey",function(e){
      $.get('/search/'+$(this).val());

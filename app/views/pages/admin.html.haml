@@ -1,5 +1,5 @@
 .row
-  .large-12.columns
+  .large-6.columns
     %h3 Approve Listings
     -Listing.inactive.each do |listing|
       %div{:id=>"listing-#{listing.id}"}
@@ -7,3 +7,11 @@
         =link_to 'approve this', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', listing_path(listing), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
+  .large-6.columns
+    %h3 Approve Tags
+    -ActsAsTaggableOn::Tag.where(:active=>:false).each do |tag|
+      %div{:id=>"tag-#{tag.id}"}
+        =tag.name
+        =link_to 'approve this', approve_tag_path(tag), :remote => :true, :confirm => 'you sure?'
+        &nbsp|&nbsp
+        =link_to 'delete', tag_path(tag), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'

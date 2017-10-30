@@ -577,3 +577,13 @@ input[type="checkbox"] {
 input label {
   display: inline;
 }
+
+.show-suggestion {
+  cursor: pointer;
+}
+.show-suggestion:hover {
+  color: blue;
+}
+.tag-suggest {
+  display:none;
+}
