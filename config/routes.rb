@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   post '/map/search/' => 'pages#map', :as => :map_search
 
   get '/tags/create' => 'tags#create', :as => :create_tag
-  get '/tags/:id/approve' => 'tags#approve', :as => :approve_tag
   delete '/tags/:id/delete' => 'tags#destroy', :as => :tag
+  get '/tags/:id/approve-new' => 'tags#approve', :as => :approve_new_tag
+  get '/tags/suggest-existing' => 'tags#suggest_existing', :as => :suggest_existing_tag
+  get '/tags/:id/approve-existing' => 'tags#approve_existing', :as => :approve_existing_tag
+
+  delete '/tags/:id/delete-suggestion' => 'tags#destroy_existing', :as => :tag_suggestion
 end

@@ -1,5 +1,5 @@
 .row
-  .large-6.columns
+  .large-4.columns
     %h3 Approve Listings
     -Listing.inactive.each do |listing|
       %div{:id=>"listing-#{listing.id}"}
@@ -7,11 +7,22 @@
         =link_to 'approve this', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', listing_path(listing), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
-  .large-6.columns
-    %h3 Approve Tags
+  .large-4.columns
+    %h3 Approve New Tags
     -ActsAsTaggableOn::Tag.where(:active=>:false).each do |tag|
       %div{:id=>"tag-#{tag.id}"}
         =tag.name
-        =link_to 'approve this', approve_tag_path(tag), :remote => :true, :confirm => 'you sure?'
+        =link_to 'approve this', approve_new_tag_path(tag), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', tag_path(tag), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
+  .large-4.columns
+    %h3 Approve Listing Tags
+    -Listing.all.each do |l|
+      -suggestions = l.tag_suggestions
+      -if suggestions.count > 0
+        -suggestions.each do |sug|
+          %div{:id=>"tag-#{sug.id}"}
+            =sug.name
+            =link_to 'approve this', approve_existing_tag_path(sug), :remote => :true, :confirm => 'you sure?'
+            &nbsp|&nbsp
+            =link_to 'delete', tag_suggestion_path(sug), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'

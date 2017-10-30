@@ -12,6 +12,8 @@
         suggest a tag
 
         .tag-suggest
-          %input.suggestion{:type=>'text'}
-      .message
+          %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+          .autocomplete-options
+          .message
+            Type in a tag name.  Click on an option from autocomplete, or press return to submit a new tag.
     %hr

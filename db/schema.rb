@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171029200903) do
+ActiveRecord::Schema.define(version: 20171030152252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20171029200903) do
     t.integer "category_id"
   end
 
+  create_table "tag_suggestions", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "listing_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -60,6 +68,7 @@ ActiveRecord::Schema.define(version: 20171029200903) do
     t.string   "tagger_type"
     t.string   "context",       limit: 128
     t.datetime "created_at"
+    t.boolean  "active",                    default: true
   end
 
   add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree

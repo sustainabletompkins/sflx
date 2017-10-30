@@ -10,10 +10,25 @@ class TagsController < ApplicationController
     @listing.tags << @tag
   end
 
+  def suggest_existing
+    @new_tag = TagSuggestion.create(:name=>params[:name], :listing_id =>params[:list_id], :user => current_user)
+    @listing = Listing.find(params[:list_id])
+  end
+
   def approve
     @tag = ActsAsTaggableOn::Tag.find(params[:id])
     @tag.active = true
     @tag.save
+  end
+
+  def approve_existing
+    @suggestion =TagSuggestion.find(params[:id])
+    @tag = ActsAsTaggableOn::Tag.find_by_name(@suggestion.name)
+    @listing = @suggestion.listing
+    @id = @suggestion.id
+    @suggestion.destroy
+    @listing.tags << @tag
+
   end
 
   def edit
@@ -25,6 +40,12 @@ class TagsController < ApplicationController
   def destroy
     @tag = ActsAsTaggableOn::Tag.find(params[:id])
     @tag.destroy
+  end
+
+  def destroy_existing
+    @suggestion =TagSuggestion.find(params[:id])
+    @id = @suggestion.id
+    @suggestion.destroy
   end
 
   def autocomplete

@@ -587,3 +587,11 @@ input label {
 .tag-suggest {
   display:none;
 }
+.tag-choice {
+
+  div,span {
+    display:inline;
+    margin-left: 6px;
+  }
+  display:inline;
+}

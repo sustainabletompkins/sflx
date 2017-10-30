@@ -84,7 +84,6 @@
       if(e.which == 13) {
         $.get("#{create_tag_path}", {list_id:listing_id , name: $(this).find('input').val()});
         $(this).find('input').val('');
-        $(this).attr("placeholder", "Type your answer here");
       }
     });
 
@@ -160,3 +159,43 @@
    function hideIcon(self) {
       self.style.backgroundImage = 'none';
   }
+
+:javascript
+  $( document ).on('keyup','.autocomplete', function() {
+      if($(this).val().length > 2) {
+        $.get('/autocomplete/tags',{q:$(this).val()}, function(data) {
+          $('.autocomplete-options').empty();
+          $('.autocomplete-options').show();
+          $.each(data, function(index,value) {
+            console.log(index,value);
+            $('.autocomplete-options').append('<div class="autocomplete-option">'+value.name+'</div>');
+          });
+
+        });
+      }
+      else {
+        $('.autocomplete-options').empty();
+        $('.autocomplete-options').hide();
+      }
+  });
+  $( document ).on( 'click', '.autocomplete-option', function () {
+    console.log($(this).closest('.tag-suggest').find('.tag-list'));
+    list = $(this).closest('.tag-suggest').find('.tag-list');
+    $.get("#{suggest_existing_tag_path}", {list_id:listing_id, name: $(this).text()});
+    setTimeout(function(){
+        $('.autocomplete').val('');
+        $('.autocomplete').focus();
+
+    }, 100);
+  });
+  $( document ).on( 'click', '.del', function (event) {
+    $(event.target).parent().remove();
+
+    str = '';
+    $('#tag-list').find('.tag').each(function() {
+      str += $(this).attr("value") + ',';
+    });
+    str = str.substring(0,str.length-1);
+    $('#listing_tag_list').val(str);
+    $('.autocomplete').focus();
+  })
