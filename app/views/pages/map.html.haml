@@ -41,16 +41,14 @@
   }
   #map_wrapper {
       height: 350px;
-      margin-left: 15px;
-      margin-top: 10px;
-      margin-right: 15px;
 
   }
   #map-area {
    background-color: #d8d8da;
+   padding: 0px;
   }
   #listings {
-      margin: 35px;
+      margin: 15px;
 
   }
   #map_canvas {
@@ -63,6 +61,10 @@
 / only if you need custom infoboxes
 
 :javascript
+
+
+  gmarkers = [];
+
   $(document).on('click', '.list-name', function() {
     var selection = $(this).parent().data('list-id');
     $.get('/list/'+selection);
@@ -124,7 +126,7 @@
     }
   }
   function showMarkers() {
-    gmarkers = [];
+
 
     // Display multiple markers on a map
     var infoWindow = new google.maps.InfoWindow(), marker, i;

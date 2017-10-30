@@ -2,6 +2,11 @@
 .row#info.shadowed
   .large-12.columns
     &copy; 2017 Sustainable Tompkins | 309 N Aurora St, Ithaca NY 14850 | 607-272-1720 | info@sustainabletompkins.org
+    &nbsp |
+    -if user_signed_in?
+      =link_to('Logout', destroy_user_session_path, method: :delete)
+    -else
+      = link_to('Login', new_user_session_path)
 
 :javascript
 
