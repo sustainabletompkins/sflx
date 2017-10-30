@@ -4,9 +4,8 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
-    @lists = @category.lists
+    @lists = @category.lists.active
     @listings = @category.listings.order(title: :asc)
-    puts @listings
     @hash = []
     @info = []
     @listings.each do |l|

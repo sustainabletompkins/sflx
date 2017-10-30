@@ -1,6 +1,23 @@
 class ListsController < ApplicationController
 
-  respond_to :html
+  respond_to :html, :js
+
+  def create
+    @category = Category.find(params[:cat_id])
+    @list = List.create(:name=>params[:name], :active=>:false)
+    @category.lists << @list
+  end
+
+  def approve
+    @list = List.find(params[:id])
+    @list.active = true
+    @list.save
+  end
+
+  def destroy
+    @list = List.find(params[:id])
+    @list.destroy
+  end
 
   def show
     @list = List.find(params[:id])

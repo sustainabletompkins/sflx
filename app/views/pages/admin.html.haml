@@ -1,21 +1,22 @@
 .row
-  .large-4.columns
+  .large-6.columns
     %h3 Approve Listings
     -Listing.inactive.each do |listing|
       %div{:id=>"listing-#{listing.id}"}
         =listing.title
-        =link_to 'approve this', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
+        =link_to 'approve', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', listing_path(listing), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
-  .large-4.columns
+  .large-6.columns
     %h3 Approve New Tags
     -ActsAsTaggableOn::Tag.where(:active=>:false).each do |tag|
       %div{:id=>"tag-#{tag.id}"}
         =tag.name
-        =link_to 'approve this', approve_new_tag_path(tag), :remote => :true, :confirm => 'you sure?'
+        =link_to 'approve', approve_new_tag_path(tag), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', tag_path(tag), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
-  .large-4.columns
+  %hr
+  .large-6.columns
     %h3 Approve Listing Tags
     -Listing.all.each do |l|
       -suggestions = l.tag_suggestions
@@ -23,6 +24,18 @@
         -suggestions.each do |sug|
           %div{:id=>"tag-#{sug.id}"}
             =sug.name
-            =link_to 'approve this', approve_existing_tag_path(sug), :remote => :true, :confirm => 'you sure?'
+            =link_to 'approve', approve_existing_tag_path(sug), :remote => :true, :confirm => 'you sure?'
             &nbsp|&nbsp
             =link_to 'delete', tag_suggestion_path(sug), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
+  .large-6.columns
+    %h3 Approve New Lists
+    -Category.all.each do |cat|
+      -if cat.lists.inactive.length > 0
+        %h5.pending-title=cat.name
+      .pending-lists
+        -cat.lists.inactive.each do |list|
+          %div{:id=>"list-#{list.id}"}
+            =list.name
+            =link_to 'approve', approve_list_path(list), :remote => :true, :confirm => 'you sure?'
+            &nbsp|&nbsp
+            =link_to 'delete', list_path(list), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'

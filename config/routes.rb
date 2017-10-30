@@ -9,6 +9,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :lists, :only=>[:destroy] do
+    member do
+      get 'approve'
+    end
+  end
+
   get '/admin' => 'pages#admin'
   get '/list' => 'pages#list'
   get '/map/:category' => 'pages#map', :as => :map
@@ -20,6 +26,7 @@ Rails.application.routes.draw do
   post '/map/search/' => 'pages#map', :as => :map_search
 
   get '/tags/create' => 'tags#create', :as => :create_tag
+  get '/lists/create' => 'lists#create', :as => :create_list
   delete '/tags/:id/delete' => 'tags#destroy', :as => :tag
   get '/tags/:id/approve-new' => 'tags#approve', :as => :approve_new_tag
   get '/tags/suggest-existing' => 'tags#suggest_existing', :as => :suggest_existing_tag

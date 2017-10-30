@@ -17,6 +17,13 @@
       #category-lists
         -if @lists.present?
           =render @lists
+      .show-list-suggestion{:"data-category-id"=>@category.id}
+        + add a list
+
+        .list-suggest
+          %input{:type => 'text', :name => 'list'}
+          .message
+            enter to submit
   .large-9.columns#map-area
     #map_wrapper
       #map_canvas.mapping
@@ -83,6 +90,18 @@
     $(this).children('.tag-suggest').keypress(function(e) {
       if(e.which == 13) {
         $.get("#{create_tag_path}", {list_id:listing_id , name: $(this).find('input').val()});
+        $(this).find('input').val('');
+      }
+    });
+
+  });
+  $(document).on('click', '.show-list-suggestion', function() {
+    $(this).children('.list-suggest').show();
+    $(this).find('input').focus();
+    cat_id = $(this).data('category-id');
+    $(this).children('.list-suggest').keypress(function(e) {
+      if(e.which == 13) {
+        $.get("#{create_list_path}", {cat_id:cat_id , name: $(this).find('input').val()});
         $(this).find('input').val('');
       }
     });
