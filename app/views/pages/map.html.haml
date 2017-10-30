@@ -31,7 +31,7 @@
       %h3.category-title=@title
       #current-listings
         -if @listings.count > 0
-          =render @listings
+          =render :partial => 'listings/listing', :collection => @listings, :as =>'listing'
 
 :css
   #lists {
@@ -82,7 +82,8 @@
 
     $(this).next().toggle();
     $(this).toggleClass('expanded');
-
+    map.setZoom(15);
+    google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
 
   });
   $(document).on('click', '.show-suggestion', function() {
