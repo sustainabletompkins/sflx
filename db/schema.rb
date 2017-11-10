@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -16,96 +15,92 @@ ActiveRecord::Schema.define(version: 20171030202317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "categories", force: :cascade do |t|
+  create_table "categories", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "description"
   end
 
-  create_table "listings", force: :cascade do |t|
-    t.string   "title"
-    t.string   "description"
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "email"
-    t.string   "phone"
-    t.string   "website"
-    t.string   "city"
-    t.integer  "zip_code"
+  create_table "listings", id: :serial, force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "email"
+    t.string "phone"
+    t.string "website"
+    t.string "city"
+    t.integer "zip_code"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",      default: false
-    t.integer  "user_id"
+    t.boolean "active", default: false
+    t.integer "user_id"
   end
 
   create_table "listings_lists", id: false, force: :cascade do |t|
-    t.integer "list_id",    null: false
-    t.integer "listing_id", null: false
+    t.bigint "list_id", null: false
+    t.bigint "listing_id", null: false
+    t.index ["list_id", "listing_id"], name: "index_listings_lists_on_list_id_and_listing_id"
+    t.index ["listing_id", "list_id"], name: "index_listings_lists_on_listing_id_and_list_id"
   end
 
-  add_index "listings_lists", ["list_id", "listing_id"], name: "index_listings_lists_on_list_id_and_listing_id", using: :btree
-  add_index "listings_lists", ["listing_id", "list_id"], name: "index_listings_lists_on_listing_id_and_list_id", using: :btree
-
-  create_table "lists", force: :cascade do |t|
-    t.string  "name"
-    t.string  "description"
+  create_table "lists", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.integer "category_id"
     t.boolean "active",      default: true
   end
 
-  create_table "tag_suggestions", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "user_id"
+  create_table "tag_suggestions", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "listing_id"
+    t.integer "listing_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.integer  "tag_id"
-    t.integer  "taggable_id"
-    t.string   "taggable_type"
-    t.integer  "tagger_id"
-    t.string   "tagger_type"
-    t.string   "context",       limit: 128
+  create_table "taggings", id: :serial, force: :cascade do |t|
+    t.integer "tag_id"
+    t.string "taggable_type"
+    t.integer "taggable_id"
+    t.string "tagger_type"
+    t.integer "tagger_id"
+    t.string "context", limit: 128
     t.datetime "created_at"
-    t.boolean  "active",                    default: true
+    t.boolean "active", default: true
+    t.index ["context"], name: "index_taggings_on_context"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
-  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
-  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
-  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
-
-  create_table "tags", force: :cascade do |t|
-    t.string  "name"
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.integer "taggings_count", default: 0
-    t.boolean "active",         default: true
+    t.boolean "active", default: true
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

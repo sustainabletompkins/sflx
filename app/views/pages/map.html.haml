@@ -62,12 +62,11 @@
 
 :javascript
 
-
-  gmarkers = [];
-
   $(document).on('click', '.list-name', function() {
     var selection = $(this).parent().data('list-id');
-    $.get('/list/'+selection);
+    $.get({
+      url: '/list/'+selection
+    });
 
   });
   $(document).on('click', '.tag', function() {
@@ -127,11 +126,12 @@
     }
   }
   function showMarkers() {
-
-
+    gmarkers = [];
+    var bounds = new google.maps.LatLngBounds(null);
     // Display multiple markers on a map
     var infoWindow = new google.maps.InfoWindow(), marker, i;
     for( i = 0; i < markers.length; i++ ) {
+        console.log('sdfds');
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
         marker = new google.maps.Marker({
@@ -151,16 +151,21 @@
         // Automatically center the map fitting all markers on the screen
 
     }
+    if(gmarkers.length == 1) {
+      console.log('just one');
+      map.panTo(gmarkers[0]);
+      google.maps.event.trigger(gmarkers[0], 'click');
+    }
+
+    console.log('kkkk');
+    console.log(bounds);
     map.fitBounds(bounds);
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        if (map.getZoom() > 14) map.setZoom(14);
-        google.maps.event.removeListener(boundsListener);
-    });
+
   }
+
   function initialize() {
 
-      bounds = new google.maps.LatLngBounds();
+
       mapOptions = {
           mapTypeId: 'roadmap'
       };
@@ -173,10 +178,16 @@
       markers = #{raw @hash};
       infoWindowContent = #{raw @info};
 
-
       // Loop through our array of markers & place each one on the map
       showMarkers();
 
+  }
+
+  function removeMarkers()
+  {
+      for (var i = 0; i < gmarkers.length; i++) {
+          gmarkers[i].setMap(null);
+      }
   }
    function hideIcon(self) {
       self.style.backgroundImage = 'none';

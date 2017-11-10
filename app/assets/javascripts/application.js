@@ -24,5 +24,5 @@ var markers;
 var map;
 var gmarkers = [];
 var infoWindowContent;
-var bounds;
+
 var mapOptions;

@@ -37,6 +37,8 @@ class ListsController < ApplicationController
       @hash << arr
     end
     @title = "#{@list.category.name} > #{@list.name}"
+
+    #render :json => {:markers => @hash.to_json, :info => @info.to_json}
   end
 
   def tagged

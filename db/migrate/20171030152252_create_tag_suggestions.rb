@@ -1,4 +1,4 @@
-class CreateTagSuggestions < ActiveRecord::Migration
+class CreateTagSuggestions < ActiveRecord::Migration[4.2]
   def change
     create_table :tag_suggestions do |t|
       t.string :name
