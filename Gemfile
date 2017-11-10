@@ -26,7 +26,7 @@ gem 'foundation-rails', '5.4.5'
 gem 'best_in_place', '~> 3.0.1'
 gem 'gingerice'
 gem 'foundation-icons-sass-rails'
-
+gem 'rails_12factor'
 gem 'responders', '~> 2.0'
 gem 'acts-as-taggable-on', '~> 4.0'
 gem 'gmaps4rails'
