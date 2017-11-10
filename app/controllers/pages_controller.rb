@@ -42,6 +42,7 @@ class PagesController < ApplicationController
     @categories = Category.all
     @listing = Listing.new
     @tags = ActsAsTaggableOn::Tag.all
+    @count = Listing.all.count
   end
 
 

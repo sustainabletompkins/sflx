@@ -12,10 +12,12 @@
  *
  *= require_tree .
  *= require_self
- *= require foundation_and_overrides
+ //= require foundation_and_overrides
+
 
  */
-
+ @import 'foundation_and_overrides';
+ @import 'foundation-icons';
 
 $light-blue:#c0e3f6;
 $dark-blue:#0b629d;

@@ -1,4 +1,4 @@
-class AddActiveToTaggings < ActiveRecord::Migration
+class AddActiveToTaggings < ActiveRecord::Migration[4.2]
   def change
     add_column :taggings, :active, :boolean, :default => :true
   end
