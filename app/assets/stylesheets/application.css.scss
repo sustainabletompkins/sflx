@@ -215,6 +215,11 @@ input {
 	display:inline-block;
 	margin-right: 5px;
 	margin-bottom: 4px;
+  cursor: pointer;
+}
+.tag-choice:hover {
+	background-color: #ccc;
+
 }
 .tag-choice.selected {
 	background-color: #c0c;
@@ -590,7 +595,7 @@ input label {
 .tag-suggest, .list-suggest {
   display:none;
 }
-.tag-choice {
+.tag-suggest-choice {
 
   div,span {
     display:inline;
