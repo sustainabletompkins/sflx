@@ -174,7 +174,7 @@
       }
   });
   $( document ).on( 'click', '.autocomplete-option', function () {
-    $('#tag-list').append('<div class="tag" value="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
+    $('#tag-list').append('<div class="tag" data-tag="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
     $('.autocomplete-options').empty();
     $('.autocomplete-options').hide();
     str = '';
