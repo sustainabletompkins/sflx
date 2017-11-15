@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def list
-    @listings = Listing.all.order(title: :asc)
+    @listings = Listing.approved.order(title: :asc)
   end
 
   def map
@@ -15,12 +15,12 @@ class PagesController < ApplicationController
 
     if params[:origin] == 'homepage'
 
-      @listings = Listing.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
+      @listings = Listing.approved.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
       @title = "Searches for #{params[:q]}"
     else
       @category = Category.find_by_name(params[:category])
       @lists = @category.lists.active
-      @listings = @category.listings.order(title: :asc)
+      @listings = @category.listings.where('listings.active = TRUE').order(title: :asc)
       @title = "#{@category.name} Listings"
     end
 
