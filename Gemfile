@@ -28,7 +28,7 @@ gem 'gingerice'
 gem 'foundation-icons-sass-rails'
 gem 'rails_12factor'
 gem 'responders', '~> 2.0'
-gem 'acts-as-taggable-on', '~> 4.0'
+gem 'acts-as-taggable-on', '~> 5.0'
 gem 'gmaps4rails'
 
 gem 'devise'
