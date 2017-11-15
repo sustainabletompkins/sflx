@@ -40,11 +40,16 @@
       %h4 Add Tags
       %label Tag relevant keywords or topics
       #tag-list
+        -@listing.tag_list.each do |tag|
+          .tag{:"data-tag"=>"#{tag}"}
+            =tag
+            .del X
       %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
       .autocomplete-options
       =f.hidden_field :tag_list
       -@tags.each do |tag|
         .tag-choice{:'data-tag'=>tag}=tag
+
       #edit-msg
       =f.submit "save listing", :class => "button", :id => 'save-listing'
 
@@ -52,24 +57,22 @@
 :javascript
   $('#listing_phone').mask('(000) 000-0000');
   var tags = [];
-  tags = "#{escape_javascript @listing.tag_list.to_json}";
-  console.log(tags);
-  str = '';
-  jQuery.each(JSON.parse(tags), function(i,val) {
-    $('#tag-list').append('<div class="tag" value="' + val + '">' + val + '<div class="del">X</div></div>');
-    str += val + ',';
 
-  });
-  str = str.substring(0,str.length-1);
-  $('#listing_tag_list').val(str);
   console.log(tags);
   $(document).on('ready page:load', function(){
 
     initialize();
 
-    $('#submit-listing').on('click', function(e) {
-      e.preventDefault();
+    $('#save-listing').on('click', function(e) {
+      //e.preventDefault();
       valid = false;
+      str = '';
+      $('#tag-list').find('.tag').each(function() {
+        str += $(this).data('tag') + ',';
+      });
+      str = str.substring(0,str.length-1);
+      $('#listing_tag_list').val(str);
+      console.log(str);
       $('#notice').empty();
       if($('#listing_phone').val().length == 14) {
         console.log('valid phone');
@@ -98,14 +101,15 @@
       }
       if(!valid) {
           $('html, body').animate({
-            scrollTop: $("#new_listing").offset().top
+            scrollTop: $("#edit_listing").offset().top
         }, 200);
         $('#notice').append('Please enter at least one contact point (phone, email or url).');
       }
       else {
 
         if($('#listing_latitude').val().length > 0) {
-          $('#new_listing').submit();
+          $('#edit_listing').submit();
+          console.log('hey');
         }
         else {
           $('#notice').html("Hmmm, it looks like we can't recognize your address.  Please select one of the address suggested in the dropdown that appears as you type.");
@@ -189,7 +193,7 @@
   });
   $( document ).on( 'click', '.del', function (event) {
     $(event.target).parent().remove();
-
+    console.log('hey');
     str = '';
     $('#tag-list').find('.tag').each(function() {
       str += $(this).attr("value") + ',';
@@ -204,13 +208,7 @@
       $(event.target).remove();
     }
     else {
-      $('#tag-list').append('<div class="tag" value="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
+      $('#tag-list').append('<div class="tag" data-tag="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
     }
     $(this).toggleClass('selected');
-    str = '';
-    $('#tag-list').find('.tag').each(function() {
-      str += $(this).attr("value") + ',';
-    });
-    str = str.substring(0,str.length-1);
-    $('#listing_tag_list').val(str);
   });
