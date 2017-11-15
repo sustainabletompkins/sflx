@@ -11,7 +11,7 @@ class TagsController < ApplicationController
   end
 
   def suggest_existing
-    @new_tag = TagSuggestion.create(:name=>params[:name], :listing_id =>params[:list_id], :user => current_user)
+    @new_tag = TagSuggestion.create(:name=>params[:name].gsub(' ','-'), :listing_id =>params[:list_id], :user => current_user)
     @listing = Listing.find(params[:list_id])
   end
 
