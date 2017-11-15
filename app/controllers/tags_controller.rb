@@ -11,7 +11,7 @@ class TagsController < ApplicationController
   end
 
   def suggest_existing
-    @new_tag = TagSuggestion.create(:name=>params[:name].gsub(' ','-'), :listing_id =>params[:list_id], :user => current_user)
+    @new_tag = TagSuggestion.create(:name=>params[:name], :listing_id =>params[:list_id], :user => current_user)
     @listing = Listing.find(params[:list_id])
   end
 
@@ -23,7 +23,12 @@ class TagsController < ApplicationController
 
   def approve_existing
     @suggestion =TagSuggestion.find(params[:id])
-    @tag = ActsAsTaggableOn::Tag.find_by_name(@suggestion.name)
+    @tag = ActsAsTaggableOn::Tag.where(:name=>@suggestion.name)
+    if @tag.present?
+
+    else
+      @tag = ActsAsTaggableOn::Tag.create(:name=>@suggestion.name, :active=>:true)
+    end
     @listing = @suggestion.listing
     @id = @suggestion.id
     @suggestion.destroy
