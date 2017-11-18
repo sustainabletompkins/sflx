@@ -1,0 +1,10 @@
+.listing[listing]
+  .listing-title=listing.title
+  .listing-details
+    %p=listing.description
+    %span=listing.address
+    %span=link_to listing.website, listing.website, :target=>'_blank'
+    %span=link_to listing.phone, "tel:+1#{listing.phone.gsub(/\D/, '')}"
+    %span=link_to listing.email, "mailto:#{listing.email}"
+    =render :partial=>'shared/tag', :collection=>listing.tags.where(:active => :true), :as => :tag
+    %hr

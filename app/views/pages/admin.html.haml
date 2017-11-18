@@ -7,10 +7,12 @@
     %h3 Approve Listings
     -Listing.inactive.each do |listing|
       %div{:id=>"listing-#{listing.id}"}
-        =listing.title
+        =render :partial=> 'listings/basic_listing', :locals => {listing: listing}
         =link_to 'approve', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
         &nbsp|&nbsp
         =link_to 'delete', listing_path(listing), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
+        &nbsp|&nbsp
+        =link_to 'edit', edit_listing_path(listing), :confirm => 'you sure you want to delete'
   .large-6.columns
     %h3 Approve New Tags
     -ActsAsTaggableOn::Tag.where(:active=>:false).each do |tag|
