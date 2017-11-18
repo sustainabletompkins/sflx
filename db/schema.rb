@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030202317) do
+ActiveRecord::Schema.define(version: 20171118215417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20171030202317) do
   end
 
   create_table "listings_lists", id: false, force: :cascade do |t|
-    t.bigint "list_id", null: false
-    t.bigint "listing_id", null: false
+    t.integer "list_id", null: false
+    t.integer "listing_id", null: false
     t.index ["list_id", "listing_id"], name: "index_listings_lists_on_list_id_and_listing_id"
     t.index ["listing_id", "list_id"], name: "index_listings_lists_on_listing_id_and_list_id"
   end
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20171030202317) do
     t.string "name"
     t.string "description"
     t.integer "category_id"
-    t.boolean "active",      default: true
+    t.boolean "approved", default: true
   end
 
   create_table "tag_suggestions", id: :serial, force: :cascade do |t|
@@ -61,10 +61,10 @@ ActiveRecord::Schema.define(version: 20171030202317) do
 
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
-    t.string "taggable_type"
     t.integer "taggable_id"
-    t.string "tagger_type"
+    t.string "taggable_type"
     t.integer "tagger_id"
+    t.string "tagger_type"
     t.string "context", limit: 128
     t.datetime "created_at"
     t.boolean "active", default: true

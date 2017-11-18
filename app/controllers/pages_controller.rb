@@ -19,7 +19,7 @@ class PagesController < ApplicationController
       @title = "Searches for #{params[:q]}"
     else
       @category = Category.find_by_name(params[:category])
-      @lists = @category.lists.active
+      @lists = @category.lists.approved
       @listings = @category.listings.where('listings.active = TRUE').order(title: :asc)
       @title = "#{@category.name} Listings"
     end

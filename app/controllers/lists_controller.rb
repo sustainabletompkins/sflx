@@ -4,13 +4,15 @@ class ListsController < ApplicationController
 
   def create
     @category = Category.find(params[:cat_id])
-    @list = List.create(:name=>params[:name], :active=>:false)
+    @list = List.create(:name=>params[:name])
+    @list.approved = false
+    puts @list.inspect
     @category.lists << @list
   end
 
   def approve
     @list = List.find(params[:id])
-    @list.active = true
+    @list.approved = true
     @list.save
   end
 

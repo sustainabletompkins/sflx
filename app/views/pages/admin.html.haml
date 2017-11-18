@@ -36,10 +36,10 @@
   .large-6.columns
     %h3 Approve New Lists
     -Category.all.each do |cat|
-      -if cat.lists.inactive.length > 0
+      -if cat.lists.pending.length > 0
         %h5.pending-title=cat.name
       .pending-lists
-        -cat.lists.inactive.each do |list|
+        -cat.lists.pending.each do |list|
           %div{:id=>"list-#{list.id}"}
             =list.name
             =link_to 'approve', approve_list_path(list), :remote => :true, :confirm => 'you sure?'
