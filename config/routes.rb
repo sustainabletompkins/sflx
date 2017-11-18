@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, :only=>[:destroy, :edit, :index]
+
   get '/admin' => 'pages#admin'
   get '/list' => 'pages#list'
   get '/map/:category' => 'pages#map', :as => :map

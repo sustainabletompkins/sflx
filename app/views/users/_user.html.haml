@@ -1,0 +1,5 @@
+.user[user]
+  =user.email
+  %br
+  =link_to 'delete', user_path(user), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
+  &nbsp|&nbsp
