@@ -1,6 +1,9 @@
 .row{:style=>'background-color: #eee'}
   .large-12.columns
-    %h4 All Listings
+    %h3 All Listings
+    %h4{:style=>'color:red'}
+      total listings:
+      =@listings.count
     -@listings.each do |l|
       .row
         .large-5.columns
@@ -9,8 +12,12 @@
           %div=l.website
           %div=l.phone
           %div=l.email
+          %span{:style=>'color:red'}
+            (added by #{l.user.email})
         .large-5.columns{:style=>'background-color: #edd'}
           %p=l.description
         .large-2.columns
           =link_to 'edit', edit_listing_path(l)
+          |
+          =link_to 'delete', listing_path(l), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
       %hr
