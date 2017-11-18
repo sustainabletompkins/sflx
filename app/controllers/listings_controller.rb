@@ -22,7 +22,7 @@ class ListingsController < ApplicationController
   def new
     @categories = Category.all
     @listing = Listing.new
-    @tags = ActsAsTaggableOn::Tag.all
+    @tags = ActsAsTaggableOn::Tag.all.order(name: :asc)
   end
 
   def approve
@@ -34,7 +34,7 @@ class ListingsController < ApplicationController
   def edit
     @listing = Listing.find(params[:id])
     @categories = Category.all
-    @tags = ActsAsTaggableOn::Tag.all
+    @tags = ActsAsTaggableOn::Tag.all.order(name: :asc)
   end
 
   def destroy
