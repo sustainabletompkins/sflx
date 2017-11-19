@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-
+  http_basic_authenticate_with :name => "admin", :password => "309NAurora", :only => [:admin, :list]
   def home
     @categories = Category.all
     @listings = Listing.last(10).reverse
