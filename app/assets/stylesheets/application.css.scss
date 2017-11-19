@@ -242,6 +242,25 @@ input {
   vertical-align: top;
 }
 
+.notice, .alert {
+  position:absolute;
+  text-align: center;
+  left: 50%;
+  width: 50%;
+  margin-left: -25%;
+  padding: 15px;
+  background-color: white;
+  color: #000;
+  top: 250px;
+  z-index: 1005;
+  border: 1px solid black;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 #content {
 
 }

@@ -1,5 +1,10 @@
 .row.shadowed{:style=>'background-color: #ffffff;'}
-  .large-12.columns
+  .large-5.medium-5.columns{:style => "text-align:center;"}
+    %br
+    %h4 No Account Yet?
+    =link_to new_user_registration_path do
+      %button Create An Account
+  .large-7.medium-7.columns
     .row
       .large-12.columns
         %h3 Log in
@@ -14,5 +19,5 @@
             = f.check_box :remember_me
             = f.label :remember_me
           .actions
-            = f.submit "Log in"
+            = f.submit "Log in", :class => "button"
         = render "devise/shared/links"
