@@ -146,4 +146,21 @@ namespace :init do
       @user.listings << lis
     end
   end
+
+  task :set_places => :environment do
+    txt = ''
+    Place.delete_all
+    #open the test queries document, which is close to what we need, but does not contain the proper intent ID or reference codes
+    #we will go through it and find the appropriate intents, and write a new csv containing these values
+
+    file = File.open("lib/csv/places.csv")
+    file.each do |line,v|
+
+      attrs = line.split(",")
+      break if attrs[0].length == 0
+      if attrs[0].length > 1
+        Place.create(:zipcode=>attrs[0], :city=>attrs[1])
+      end
+    end
+  end
 end
