@@ -154,12 +154,8 @@
     }
     if(gmarkers.length == 1) {
       console.log('just one');
-      map.panTo(gmarkers[0]);
-      google.maps.event.trigger(gmarkers[0], 'click');
+      $('.listing-info').css('display','block');
     }
-
-    console.log('kkkk');
-    console.log(bounds);
     map.fitBounds(bounds);
 
   }
