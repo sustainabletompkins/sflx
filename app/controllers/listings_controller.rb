@@ -56,6 +56,19 @@ class ListingsController < ApplicationController
     end
   end
 
+  def autocomplete_search
+    @suggestions = {}
+    tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{params[:q]}%")
+    puts tags.inspect
+    places = Place.where("zip LIKE (?) OR city LIKE (?)","%#{params[:q]}%")
+    puts places.inspect
+    listings = Listing.where("title LIKE (?)","%#{params[:q]}%")
+    puts listings.inspect
+    respond_to do |format|
+      format.json { render :json => @tags.collect{|tag| {:id => tag.name, :name => tag.name}} }
+    end
+  end
+
   def search
     @listings = Listing.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%")
     @hash = []
