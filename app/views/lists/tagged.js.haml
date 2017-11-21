@@ -1,10 +1,6 @@
 markers = #{raw @hash};
 infoWindowContent = #{raw @info};
 setMapOnAll(null);
-console.log('sdfdsfsd');
-showMarkers();
-console.log(markers);
-$('#current-listings').empty();
-console.log('hey');
 $('#current-listings').html("#{j render @listings}");
 $('.category-title').html("#{@title}");
+showMarkers();
