@@ -70,7 +70,7 @@ class ListingsController < ApplicationController
   end
 
   def search
-    @listings = Listing.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%")
+    @listings = Listing.approved.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
     @hash = []
     @info = []
     @listings.each do |l|

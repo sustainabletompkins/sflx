@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def list
-    @listings = Listing.approved.order(title: :asc)
+    @listings = Listing.order(title: :asc)
   end
 
   def map
