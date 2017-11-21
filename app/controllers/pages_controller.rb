@@ -20,7 +20,7 @@ class PagesController < ApplicationController
     else
       @category = Category.find_by_name(params[:category])
       @lists = @category.lists.approved
-      @listings = @category.listings.where('listings.active = TRUE').order(title: :asc)
+      @listings = @category.listings.approved.order(title: :asc)
       @title = "#{@category.name} Listings"
     end
 
