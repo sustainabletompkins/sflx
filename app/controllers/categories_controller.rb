@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
-    @lists = @category.lists.active
+    @lists = @category.lists.approved
     @listings = @category.listings.order(title: :asc)
     @hash = []
     @info = []
