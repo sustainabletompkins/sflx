@@ -27,6 +27,7 @@ class PagesController < ApplicationController
       @category = Category.find_by_name(params[:category])
       @lists = @category.lists.approved
       @title = "[#{@category.name}] #{list.name} Listings"
+      @breadcrumb = "<a href='/map/category/#{@category.name}'></a> > <a href='/map/category/#{@category.name}/#{@list.name}'></a>"
 
     elsif params.has_key?(:category)
       @category = Category.find_by_name(params[:category])
