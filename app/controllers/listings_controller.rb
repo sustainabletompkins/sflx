@@ -2,7 +2,7 @@ class ListingsController < ApplicationController
 
   respond_to :html, :js
 
-  before_action :authenticate_user!, :except => [:search,:autocomplete_tags]
+  before_action :authenticate_user!, :except => [:search,:autocomplete_tags, :autocomplete_search]
 
   def create
 
@@ -57,15 +57,28 @@ class ListingsController < ApplicationController
   end
 
   def autocomplete_search
-    @suggestions = {}
-    tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{params[:q]}%")
-    puts tags.inspect
-    places = Place.where("zip LIKE (?) OR city LIKE (?)","%#{params[:q]}%")
-    puts places.inspect
-    listings = Listing.where("title LIKE (?)","%#{params[:q]}%")
-    puts listings.inspect
+    input = params[:q].downcase
+    suggestions = []
+    tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{input}%")
+    tags.each do |p|
+      suggestions << {:name=>"##{p.name}", :type=>'tag', :slug=>"map/tag/#{p.name}"}
+    end
+    places = Place.where("zipcode LIKE (?) OR city LIKE (?)","#{input}%","#{input}%")
+    places.each do |p|
+      suggestions << {:name=>p.city.titleize, :type=>'place', :slug=>"map/place/#{p.city}"}
+    end
+    lists = List.where("name ILIKE (?)","%#{input}%")
+    lists.each do |p|
+      suggestions << {:name=>p.name, :type=>'list', :slug=>"/map/category/#{p.category.name}/#{p.name}"}
+    end
+
+    cats = Category.where("name ILIKE (?)","%#{input}%")
+    cats.each do |p|
+      suggestions << {:name=>p.name, :type=>'category', :slug=>"/map/category/#{p.name}"}
+    end
+    suggestions = suggestions.uniq { |e| e[:name] }
     respond_to do |format|
-      format.json { render :json => @tags.collect{|tag| {:id => tag.name, :name => tag.name}} }
+      format.json { render :json => suggestions }
     end
   end
 

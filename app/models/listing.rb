@@ -4,5 +4,5 @@ class Listing < ActiveRecord::Base
   belongs_to :user
   has_many :tag_suggestions
   scope :inactive, lambda { where('active = FALSE') }
-  scope :approved, lambda { where('active = TRUE') }
+  scope :approved, lambda { where('listings.active = TRUE') }
 end

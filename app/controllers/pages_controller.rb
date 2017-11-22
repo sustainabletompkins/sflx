@@ -13,19 +13,37 @@ class PagesController < ApplicationController
     @listings = Listing.order(title: :asc)
   end
 
+  def test
+
+  end
+
   def map
     @categories = Category.all
 
-    if params[:origin] == 'homepage'
-
-      @listings = Listing.approved.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
-      @title = "Searches for #{params[:q]}"
-    else
+    puts params
+    if params.has_key?(:list)
+      list = List.find_by_name(params[:list])
+      @listings = list.listings.approved.order(title: :asc)
       @category = Category.find_by_name(params[:category])
       @lists = @category.lists.approved
+      @title = "[#{@category.name}] #{list.name} Listings"
+
+    elsif params.has_key?(:category)
+      @category = Category.find_by_name(params[:category])
       @listings = @category.listings.approved.order(title: :asc)
       @title = "#{@category.name} Listings"
+
+      @lists = @category.lists.approved
+    elsif params.has_key?(:city)
+      @listings = Listing.approved.where('city ILIKE (?)',"#{params[:city]}%")
+      @title = "#{params[:city]} Listings"
+    elsif params.has_key?(:tag)
+      puts 'sdfds'
+      @listings = Listing.approved.tagged_with(params[:tag]).order(title: :asc)
+      @title = "##{params[:tag]} Listings"
     end
+
+
 
     @hash = []
     @info = []
@@ -38,7 +56,6 @@ class PagesController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
-
   end
 
   def admin

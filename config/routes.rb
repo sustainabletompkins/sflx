@@ -20,11 +20,16 @@ Rails.application.routes.draw do
 
   get '/admin' => 'pages#admin'
   get '/list' => 'pages#list'
-  get '/map/:category' => 'pages#map', :as => :map
+  get '/test' => 'pages#test'
+
+  get '/map/category/:category(/:list(/:tag))' => 'pages#map', :as => :map
+  get '/map/tag/:tag' => 'pages#map'
+  get '/map/place/:city' => 'pages#map'
   get '/category/:id' => 'categories#show', :as => :load_category
   get '/list/:id' => 'lists#show', :as => :load_list
   get '/list/:id/tags/:tag' => 'lists#tagged', :as => :load_list_by_tag
   get '/autocomplete/tags' => 'listings#autocomplete_tags'
+  get '/autocomplete/search' => 'listings#autocomplete_search'
   get '/search/:q' => 'listings#search'
   post '/map/search/' => 'pages#map', :as => :map_search
 

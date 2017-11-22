@@ -158,8 +158,8 @@ namespace :init do
 
       attrs = line.split(",")
       break if attrs[0].length == 0
-      if attrs[0].length > 1
-        Place.create(:zipcode=>attrs[0], :city=>attrs[1])
+      if attrs[0].length > 1 && attrs[1].present?
+        Place.create(:zipcode=>attrs[0], :city=>attrs[1].downcase)
       end
     end
   end

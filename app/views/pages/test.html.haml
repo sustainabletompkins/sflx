@@ -1,0 +1,45 @@
+.row
+  .large-12.columns
+    %br
+    .search-box
+      %input#listing-search{:style=>'font-size: 1.2em; padding: 5px; margin: 10px;', :html=>{:placeholder => "search the finger lakes"}}
+      #search-recommendations
+    %br
+:javascript
+  $('#listing-search').keyup(function() {
+    if($(this).val().length > 1) {
+      $.ajax({
+        url: '/autocomplete/search/',
+        data: {q:$(this).val()},
+        dataType: 'json'
+      })
+      .done(function(data) {
+        $('#search-recommendations').empty();
+        $.each(data, function(index, value) {
+          $('#search-recommendations').append("<div class='suggestion' data-type='"+value.type+"' data-slug='"+value.slug+"'><span>"+value.name+"</span></div>");
+        });
+      });
+      return false;
+    }
+  });
+
+  $(document).on('click', '.suggestion', function() {
+    window.location = $(this).data('slug');
+  });
+
+:css
+
+  #search-recommendations {
+    margin: 10px;
+    padding: 4px;
+    background-color: #fff;
+    color: black;
+  }
+  .suggestion {
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+  }
+  .suggestion:hover {
+    border-bottom: 1px solid gray;
+    color: green;
+  }
