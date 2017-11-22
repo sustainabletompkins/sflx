@@ -23,7 +23,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @listings = @list.listings.order(title: :asc)
+    @listings = @list.listings.approved.order(title: :asc)
     @tag_ids = ActsAsTaggableOn::Tagging.joins("INNER JOIN tags ON tags.id = tag_id").where('taggable_id in (?)',@listings.map(&:id)).map(&:tag_id)
     @tag_ids=@tag_ids.uniq
     @tags=ActsAsTaggableOn::Tag.where('id IN (?)',@tag_ids)
@@ -45,7 +45,7 @@ class ListsController < ApplicationController
 
   def tagged
     @list = List.find(params[:id])
-    @listings = @list.listings.tagged_with(params[:tag]).order(title: :asc)
+    @listings = @list.listings.approved.tagged_with(params[:tag]).order(title: :asc)
     @hash = []
     @info = []
     @listings.each do |l|
