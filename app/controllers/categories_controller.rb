@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   respond_to :html
 
   def show
-    @category = Category.find(params[:id])
+    @category = Category.find_by_slug(params[:id])
     @lists = @category.lists.approved
     @listings = @category.listings.order(title: :asc)
     @hash = []
@@ -18,7 +18,7 @@ class CategoriesController < ApplicationController
       @hash << arr
     end
     @title = "#{@category.name}"
-    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.name}'>#{@category.name}</a>".html_safe
-    @url = "/map/category/#{@category.name}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>".html_safe
+    @url = "/map/category/#{@category.slug}"
   end
 end

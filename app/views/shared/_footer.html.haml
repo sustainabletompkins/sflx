@@ -11,7 +11,7 @@
 :javascript
 
   $('.category-select').on('click', function() {
-    var selection = $(this).data('cat-id');
+    var selection = $(this).data('cat-slug');
     $.get('/category/'+selection);
 
   });

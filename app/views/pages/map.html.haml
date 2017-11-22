@@ -11,7 +11,7 @@
 
           -@categories.each do |cat|
             %li
-              %a.category-select{:'data-cat-id'=>"#{cat.id}"}=cat.name
+              %a.category-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
 
     #lists
       #category-lists
@@ -64,7 +64,7 @@
 :javascript
 
   $(document).on('click', '.list-name', function() {
-    var selection = $(this).parent().data('list-id');
+    var selection = $(this).parent().data('list-slug');
     $.get({
       url: '/list/'+selection
     });
@@ -74,7 +74,7 @@
     list = $(this).parent().parent();
     console.log(list.data('list-id'));
     var tag = $(this).data('tag-id');
-    $.get('/list/'+list.data('list-id')+'/tags/'+tag);
+    $.get('/list/'+list.data('list-slug')+'/tags/'+tag);
 
   });
 

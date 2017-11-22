@@ -7,21 +7,21 @@
           =hidden_field_tag :origin,'homepage'
 
       .category-button
-        .category-load{:'data-cat-id'=>5} Sustainable Economy
+        .category-load{:'data-cat-id'=>5, :'data-cat-slug'=>'sustainable-economy'} Sustainable Economy
       .category-button
-        .category-load{:'data-cat-id'=>8} Democracy & Justice
+        .category-load{:'data-cat-id'=>8, :'data-cat-slug'=>'democracy-justice'} Democracy & Justice
       .category-button
-        .category-load{:'data-cat-id'=>6} Environmental Protection
+        .category-load{:'data-cat-id'=>6, :'data-cat-slug'=>'envirnomental-protection'} Environmental Protection
       .category-button
-        .category-load{:'data-cat-id'=>7} Healthy Culture
+        .category-load{:'data-cat-id'=>7, :'data-cat-slug'=>'healthy-culture'} Healthy Culture
       .category-button
-        .category-load{:'data-cat-id'=>1} Energy & Climate
+        .category-load{:'data-cat-id'=>1, :'data-cat-slug'=>'energy-climate'} Energy & Climate
       .category-button
-        .category-load{:'data-cat-id'=>2} Food System
+        .category-load{:'data-cat-id'=>2, :'data-cat-slug'=>'food-system'} Food System
       .category-button
-        .category-load{:'data-cat-id'=>3} Built Environment
+        .category-load{:'data-cat-id'=>3, :'data-cat-slug'=>'built-environment'} Built Environment
       .category-button
-        .category-load{:'data-cat-id'=>4} Transportation
+        .category-load{:'data-cat-id'=>4, :'data-cat-slug'=>'transportation'} Transportation
 
 
 
@@ -29,7 +29,7 @@
 :javascript
   $('.category-select').addClass('category-load');
   $('.category-load').on('click', function() {
-    var selection = $(this).text();
+    var selection = $(this).data('cat-slug');
     window.location = '/map/category/'+selection;
 
   });

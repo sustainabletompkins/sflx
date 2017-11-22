@@ -31,4 +31,19 @@ namespace :maintain do
       end
     end
   end
+
+  task :assign_slugs => :environment do
+    Listing.all.each do |lis|
+      slug = lis.title.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+      lis.update_attribute(:slug, slug)
+    end
+    List.all.each do |lis|
+      slug = lis.name.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+      lis.update_attribute(:slug, slug)
+    end
+    Category.all.each do |lis|
+      slug = lis.name.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+      lis.update_attribute(:slug, slug)
+    end
+  end
 end

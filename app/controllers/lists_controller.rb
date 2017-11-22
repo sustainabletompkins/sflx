@@ -6,7 +6,8 @@ class ListsController < ApplicationController
     @category = Category.find(params[:cat_id])
     @list = List.create(:name=>params[:name])
     @list.approved = false
-    puts @list.inspect
+    slug = @list.name.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+    @list.update_attribute(:slug, slug)
     @category.lists << @list
   end
 
@@ -22,7 +23,7 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list = List.find(params[:id])
+    @list = List.find_by_slug(params[:id])
     @listings = @list.listings.approved.order(title: :asc)
     @tag_ids = ActsAsTaggableOn::Tagging.joins("INNER JOIN tags ON tags.id = tag_id").where('taggable_id in (?)',@listings.map(&:id)).map(&:tag_id)
     @tag_ids=@tag_ids.uniq
@@ -39,14 +40,14 @@ class ListsController < ApplicationController
       @hash << arr
     end
     @title = "#{@list.category.name} > #{@list.name}"
-    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.name}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.name}/#{@list.name}'>#{@list.name}</a>".html_safe
-    @url = "/map/category/#{@list.category.name}/#{@list.name}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.slug}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.slug}/#{@list.slug}'>#{@list.name}</a>".html_safe
+    @url = "/map/category/#{@list.category.slug}/#{@list.slug}"
 
     #render :json => {:markers => @hash.to_json, :info => @info.to_json}
   end
 
   def tagged
-    @list = List.find(params[:id])
+    @list = List.find_by_slug(params[:id])
     @listings = @list.listings.approved.tagged_with(params[:tag]).order(title: :asc)
     @hash = []
     @info = []
@@ -59,7 +60,7 @@ class ListsController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
-    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.name}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.name}/#{@list.name}'>#{@list.name}</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.slug}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.slug}/#{@list.slug}'>#{@list.name}</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
     @url = "/map/tag/#{params[:tag]}"
 
     @title = "#{@list.category.name} > #{@list.name} > ##{params[:tag]}"

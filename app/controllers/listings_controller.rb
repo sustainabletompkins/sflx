@@ -12,6 +12,8 @@ class ListingsController < ApplicationController
     current_user.listings << @listing
     @listing.address = @listing.address[0..-20]
     @listing.active = true if current_user.email == 'info@sustainablefingerlakes.org'
+    slug = @listing.title.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+    @listing.slug = slug
     if @listing.save
       redirect_to URI.encode("/map/#{@listing.lists.first.category.name}")
     else
