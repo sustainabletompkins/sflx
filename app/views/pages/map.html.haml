@@ -29,7 +29,7 @@
     #map_wrapper
       #map_canvas.mapping
     #listings
-      %h3.category-title=@title
+      %h3.category-title=@breadcrumb
       #current-listings
         -if @listings.count > 0
           =render :partial => 'listings/listing', :collection => @listings, :as =>'listing'

@@ -2,5 +2,5 @@ markers = #{raw @hash};
 infoWindowContent = #{raw @info};
 setMapOnAll(null);
 $('#current-listings').html("#{j render @listings}");
-$('.category-title').html("#{@title}");
+$('.category-title').html("#{@breadcrumb}");
 showMarkers();

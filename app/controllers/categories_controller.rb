@@ -18,5 +18,6 @@ class CategoriesController < ApplicationController
       @hash << arr
     end
     @title = "#{@category.name}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.name}'>#{@category.name}</a>".html_safe
   end
 end

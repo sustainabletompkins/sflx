@@ -39,6 +39,8 @@ class ListsController < ApplicationController
       @hash << arr
     end
     @title = "#{@list.category.name} > #{@list.name}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.name}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.name}/#{@list.name}'>#{@list.name}</a>".html_safe
+
 
     #render :json => {:markers => @hash.to_json, :info => @info.to_json}
   end
@@ -57,6 +59,8 @@ class ListsController < ApplicationController
       @info << [html.html_safe]
       @hash << arr
     end
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.name}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.name}/#{@list.name}'>#{@list.name}</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
+
     @title = "#{@list.category.name} > #{@list.name} > ##{params[:tag]}"
   end
 end
