@@ -19,5 +19,6 @@ class CategoriesController < ApplicationController
     end
     @title = "#{@category.name}"
     @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.name}'>#{@category.name}</a>".html_safe
+    @url = "/map/category/#{@category.name}"
   end
 end

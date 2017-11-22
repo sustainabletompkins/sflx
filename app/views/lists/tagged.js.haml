@@ -4,3 +4,4 @@ setMapOnAll(null);
 $('#current-listings').html("#{j render @listings}");
 $('.category-title').html("#{@breadcrumb}");
 showMarkers();
+window.history.pushState("object or string", "#{@title}", "#{@url}");

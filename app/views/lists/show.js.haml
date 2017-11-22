@@ -8,3 +8,4 @@ $("#list_#{@list.id} .tags").html("#{j render :partial=>'shared/tag', :collectio
 $('#current-listings').html("#{j render @listings}");
 setMapOnAll(null);
 showMarkers();
+window.history.pushState("object or string", "#{@title}", "#{@url}");
