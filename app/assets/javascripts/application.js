@@ -24,5 +24,6 @@ var markers;
 var map;
 var gmarkers = [];
 var infoWindowContent;
-
+var infoWindow;
+var zoom;
 var mapOptions;

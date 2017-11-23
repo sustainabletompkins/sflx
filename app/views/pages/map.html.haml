@@ -79,11 +79,22 @@
   });
 
   $(document).on('click', '.listing-title', function() {
+    details = $(this).next();
+    if(details.is(':visible')) {
+      details.hide();
+      map.setZoom(zoom);
+      infoWindow.close();
+    }
+    else {
+      details.show();
 
-    $(this).next().toggle();
-    $(this).toggleClass('expanded');
-    map.setZoom(15);
-    google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
+      $(this).toggleClass('expanded');
+      zoom = map.getZoom();
+      map.setZoom(15);
+      google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
+    }
+
+
 
   });
   $(document).on('click', '.show-suggestion', function() {
@@ -131,7 +142,7 @@
     gmarkers = [];
     var bounds = new google.maps.LatLngBounds(null);
     // Display multiple markers on a map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
+
     for( i = 0; i < markers.length; i++ ) {
         console.log('sdfds');
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
@@ -142,6 +153,7 @@
             title: markers[i][0]
         });
         gmarkers.push(marker);
+        infoWindow = new google.maps.InfoWindow(), marker, i;
         // Allow each marker to have an info window
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
