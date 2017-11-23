@@ -374,8 +374,41 @@ input {
 
 }
 
-.tag:hover {
+.tag {
+  display: inline-block;
+  background-color: #fed578;
+  opacity: .9;
+  a {
+    color: black;
+    font-size: .8em;
+  }
+
+  padding: 0px 3px;
   cursor: pointer;
+  margin-right: 4px;
+}
+.tag:hover {
+  opacity: 1;
+}
+.show-suggestion {
+  display: inline-block;
+  background-color: #6e2d90;
+  opacity: 1;
+  color: #fff;
+  font-size: .8em;
+
+  padding: 0px 3px;
+  cursor: pointer;
+}
+
+.show-suggestion:hover {
+
+  background-color: #391f57;
+  color: white;
+  font-size: .8em;
+}
+.tag-list {
+  margin: 5px;
 }
 #listings {
   margin-top: 12px;
@@ -459,7 +492,7 @@ input {
 #tag-list div {
   display: inline;
 }
-.tag {
+.list-tag {
 
   display: block;
 
@@ -608,9 +641,7 @@ input label {
 .show-suggestion, .show-tag-suggestion {
   cursor: pointer;
 }
-.show-suggestion:hover, .show-tag-suggestion:hover {
-  color: blue;
-}
+
 .tag-suggest, .list-suggest {
   display:none;
 }

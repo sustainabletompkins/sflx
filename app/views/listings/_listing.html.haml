@@ -11,14 +11,15 @@
     %span=link_to listing.website, listing.website, :target=>'_blank'
     %span=link_to listing.phone, "tel:+1#{listing.phone.gsub(/\D/, '')}"
     %span=link_to listing.email, "mailto:#{listing.email}"
-    =render :partial=>'shared/tag', :collection=>listing.tags.where(:active => :true), :as => :tag
-    -if user_signed_in?
-      .show-suggestion{:"data-listing-id"=>listing.id}
-        suggest a tag
+    .tag-list
+      =render :partial=>'tags/tag', :collection=>listing.tags.where(:active => :true), :as => :tag
+      -if user_signed_in?
+        .show-suggestion{:"data-listing-id"=>listing.id}
+          + suggest a tag
 
-        .tag-suggest
-          %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
-          .autocomplete-options
-          .message
-            Type in a tag name.  Click on an option from autocomplete, or press return to submit a new tag.
+    .tag-suggest
+      %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+      .autocomplete-options
+      .message
+        Type in a tag name.  Click on an option from autocomplete, or press return to submit a new tag.
     %hr

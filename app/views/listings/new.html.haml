@@ -130,15 +130,15 @@
       console.log(place.address_components);
       for (j = 0; j < place.address_components.length; j++) {
           if (place.address_components[j].types[0] == 'postal_code') {
-            $('#listing_zip_code').attr("value",place.address_components[j].long_name));
+            $('#listing_zip_code').attr("value",place.address_components[j].long_name);
           }
           if (place.address_components[j].types[0] == 'locality') {
             console.log("City: " + place.address_components[j].short_name);
-            $('#listing_city').attr("value",place.address_components[j].long_name));
+            $('#listing_city').attr("value",place.address_components[j].long_name);
           }
           if (place.address_components[j].types[0] == 'administrative_area_level_2') {
             console.log("county: " + place.address_components[j].short_name);
-            $('#listing_county').attr("value",place.address_components[j].long_name));
+            $('#listing_county').attr("value",place.address_components[j].long_name);
           }
       }
       $('#listing_latitude').attr("value",place.geometry.location.lat());

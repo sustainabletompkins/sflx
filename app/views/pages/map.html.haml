@@ -41,7 +41,7 @@
     font-size: .9em;
   }
   #map_wrapper {
-      height: 350px;
+      height: 400px;
 
   }
   #map-area {
@@ -70,7 +70,7 @@
     });
 
   });
-  $(document).on('click', '.tag', function() {
+  $(document).on('click', '.list-tag', function() {
     list = $(this).parent().parent();
     console.log(list.data('list-id'));
     var tag = $(this).data('tag-id');
@@ -87,10 +87,11 @@
 
   });
   $(document).on('click', '.show-suggestion', function() {
-    $(this).children('.tag-suggest').show();
+    $(this).parent().parent().find('.tag-suggest').toggle();
+    $(this).parent().parent().find('.tag-suggest').find('input').focus();
     $(this).find('input').focus();
     listing_id = $(this).data('listing-id')
-    $(this).children('.tag-suggest').keypress(function(e) {
+    $(this).parent().parent().find('.tag-suggest').keypress(function(e) {
       if(e.which == 13) {
         $.get("#{suggest_existing_tag_path}", {list_id:listing_id , name: $(this).find('input').val()});
         $(this).find('input').val('');
