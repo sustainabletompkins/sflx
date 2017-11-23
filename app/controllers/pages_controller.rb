@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def test
-    @listings = Listing.where(:zip_code=>nil)
+    @listings = Listing.all
   end
 
   def map

@@ -52,7 +52,7 @@
     county = '';
     city = '';
     zip = '';
-
+    address = '';
     geocoder.geocode({'latLng': latlng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {
@@ -72,7 +72,7 @@
                 $.ajax({
                     url: "/listings/"+$('.listing:eq('+count+')').find('.id').text(),
                     method: 'PATCH',
-                    data: {listing: {county: county, city:city, zip_code: zip}}
+                    data: {listing: {county: county, city:city, zip_code: zip, address: results[0].formatted_address.replace(', USA', '')}}
                 });
             }
         } else {
