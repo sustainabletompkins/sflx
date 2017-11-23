@@ -1,6 +1,11 @@
 .listing[listing]
-  .listing-title{:"data-marker-id"=>"#{listing_counter}"}=listing.title
+  .listing-title{:"data-marker-id"=>"#{listing_counter}"}
+    =listing.title
+
   .listing-info
+    %span
+      =link_to "http://www.sustainablefingerlakes.org/map/listing/#{listing.slug}", "/map/listing/#{listing.slug}"
+    %br
     %p=listing.description
     %span=listing.address
     %span=link_to listing.website, listing.website, :target=>'_blank'
