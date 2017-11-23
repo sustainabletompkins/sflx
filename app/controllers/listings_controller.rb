@@ -21,6 +21,16 @@ class ListingsController < ApplicationController
     end
   end
 
+  def show
+    @listing = Listing.find_by_slug(params[:id])
+
+    @title = "#{@listing.title} > #{@list.name}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.slug}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.slug}/#{@list.slug}'>#{@list.name}</a>".html_safe
+    @url = "/map/listing/#{@list.category.slug}/#{@list.slug}"
+
+    #render :json => {:markers => @hash.to_json, :info => @info.to_json}
+  end
+
   def new
     @categories = Category.all
     @listing = Listing.new
@@ -102,6 +112,6 @@ class ListingsController < ApplicationController
   private
 
   def listing_params
-    params.require(:listing).permit(:user_id, :title, :description, :address, :latitude,:longitude, :city, :zipcode, :website, :phone, :email, :tag_list, list_ids:[])
+    params.require(:listing).permit(:user_id, :title, :description, :address, :latitude,:longitude, :city, :zip_code, :county, :website, :phone, :email, :tag_list, list_ids:[])
   end
 end

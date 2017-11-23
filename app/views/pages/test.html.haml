@@ -5,7 +5,19 @@
       %input#listing-search{:style=>'font-size: 1.2em; padding: 5px; margin: 10px;', :html=>{:placeholder => "search the finger lakes"}}
       #search-recommendations
     %br
+    %button#start start
+
+-@listings.each do |l|
+  .listing
+    .id=l.id
+    .lat=l.latitude
+    .lng=l.longitude
+
+
+
 :javascript
+  count = 0;
+  var int;
   $('#listing-search').keyup(function() {
     if($(this).val().length > 1) {
       $.ajax({
@@ -26,6 +38,57 @@
   $(document).on('click', '.suggestion', function() {
     window.location = $(this).data('slug');
   });
+
+
+  $('#start').on('click', function() {
+    int = setInterval(updateAddress, 5000);
+
+  });
+
+  function updateAddress() {
+    console.log($('.listing:eq('+count+')').find('.lat').text());
+    var latlng = new google.maps.LatLng($('.listing:eq('+count+')').find('.lat').text(), $('.listing:eq('+count+')').find('.lng').text());
+    geocoder = new google.maps.Geocoder();
+    county = '';
+    city = '';
+    zip = '';
+
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                for (j = 0; j < results[0].address_components.length; j++) {
+                  if (results[0].address_components[j].types[0] == 'postal_code') {
+                    zip = results[0].address_components[j].short_name
+                  }
+                  if (results[0].address_components[j].types[0] == 'locality') {
+                    city = results[0].address_components[j].short_name;
+                  }
+                  if (results[0].address_components[j].types[0] == 'administrative_area_level_2') {
+                    county = results[0].address_components[j].short_name;
+
+                    county = county.replace(' County', '')
+                  }
+                }
+                $.ajax({
+                    url: "/listings/"+$('.listing:eq('+count+')').find('.id').text(),
+                    method: 'PATCH',
+                    data: {listing: {county: county, city:city, zip_code: zip}}
+                });
+            }
+        } else {
+            console.log("Geocoder failed due to: " + status);
+        }
+    });
+
+
+    if((count+1) == $('.listing').length) {
+      clearInterval(int);
+    }
+    else {
+      count++;
+    }
+  }
+
 
 :css
 
