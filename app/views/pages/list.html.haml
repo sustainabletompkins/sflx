@@ -17,6 +17,8 @@
         .large-5.columns{:style=>'background-color: #edd'}
           %p=l.description
         .large-2.columns
+          =link_to 'view', "/map/listing/#{l.slug}"
+          |
           =link_to 'edit', edit_listing_path(l)
           |
           =link_to 'delete', listing_path(l), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'

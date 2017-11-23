@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def test
-    @listings = Listing.all
+    @listings = Listing.where(:zip_code=>nil)
   end
 
   def map
@@ -45,6 +45,10 @@ class PagesController < ApplicationController
       @listings = Listing.approved.tagged_with(params[:tag]).order(title: :asc)
       @title = "##{params[:tag]} Listings"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
+    elsif params.has_key?(:listing)
+      @listings = Listing.where(:slug=>params[:listing])
+      @title = "#{params[:listing]}"
+      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
     else
       @listings = Listing.approved
       @title = "All Finger Lakes Sustainability Listings"

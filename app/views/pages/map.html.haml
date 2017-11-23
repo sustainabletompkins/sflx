@@ -152,11 +152,15 @@
         // Automatically center the map fitting all markers on the screen
 
     }
-    if(gmarkers.length == 1) {
-      console.log('just one');
-      $('.listing-info').css('display','block');
-    }
+
     map.fitBounds(bounds);
+    var listener = google.maps.event.addListener(map, "idle", function() {
+      map.setZoom(16);
+      if(gmarkers.length == 1) {
+        $('.listing-info').css('display','block');
+      }
+      google.maps.event.removeListener(listener);
+    });
 
   }
 

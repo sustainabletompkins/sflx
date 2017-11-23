@@ -24,9 +24,9 @@ class ListingsController < ApplicationController
   def show
     @listing = Listing.find_by_slug(params[:id])
 
-    @title = "#{@listing.title} > #{@list.name}"
-    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@list.category.slug}'>#{@list.category.name}</a> > <a href='/map/category/#{@list.category.slug}/#{@list.slug}'>#{@list.name}</a>".html_safe
-    @url = "/map/listing/#{@list.category.slug}/#{@list.slug}"
+    @title = "#{@listing.title}"
+    @breadcrumb = "<a href='/map/all'>All</a> > <a href='/listings/#{@listing.slug}'>#{@listing.title}</a>".html_safe
+    @url = "/listings/#{@listing.slug}"
 
     #render :json => {:markers => @hash.to_json, :info => @info.to_json}
   end
