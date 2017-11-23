@@ -46,4 +46,14 @@ namespace :maintain do
       lis.update_attribute(:slug, slug)
     end
   end
+
+  task :assign_places => :environment do
+    Listing.all.each do |l|
+      p = Place.where(:zipcode=>l.zip_code)
+      if p.first.present?
+        p.first.listings << l
+      end
+    end
+  end
+
 end

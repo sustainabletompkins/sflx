@@ -47,8 +47,9 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
     elsif params.has_key?(:listing)
       @listings = Listing.where(:slug=>params[:listing])
+      place = @listings.first.place
       @title = "#{params[:listing]}"
-      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
+      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{place.city}'>#{place.city}</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
     else
       @listings = Listing.approved
       @title = "All Finger Lakes Sustainability Listings"
@@ -63,6 +64,7 @@ class PagesController < ApplicationController
       @listings.each do |l|
         arr = [l.title, l.latitude, l.longitude]
         html = "<div class='info_content'><h3>#{l.title}</h3><p>#{l.description}</p>"
+        html += "<div class='address'><span>#{l.address}</span>"
         html += "<div class='website'><a href='#{l.website}'>#{l.website}</a></div></div>" if l.website.present?
         html += "<div class='phone'><a href='tel:+1#{l.phone.gsub(/\D/, "")}'>#{l.phone}</a></div></div>" if l.phone.present?
         html += "<div class='email'><a href='mailto:#{l.email}' target='_blank'>#{l.email}</a></div></div>" if l.email.present?

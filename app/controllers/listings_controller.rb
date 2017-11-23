@@ -15,7 +15,11 @@ class ListingsController < ApplicationController
     slug = @listing.title.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
     @listing.slug = slug
     if @listing.save
-      redirect_to URI.encode("/map/#{@listing.lists.first.category.name}")
+      p = Place.where(:zipcode=>@listing.zip_code)
+      if p.first.present?
+        p.first.listings << @listing
+      end
+      redirect_to URI.encode("/map/listing/#{@listing.slug}")
     else
       render :new
     end
