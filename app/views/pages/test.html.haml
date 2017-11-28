@@ -7,8 +7,9 @@
     %br
     %button#start start
 
--@listings.each do |l|
+-@listings.first(10).each do |l|
   .listing
+    .name=l.title
     .id=l.id
     .lat=l.latitude
     .lng=l.longitude
@@ -16,7 +17,7 @@
 
 
 :javascript
-  count = 0;
+  count = -1;
   var int;
   $('#listing-search').keyup(function() {
     if($(this).val().length > 1) {
@@ -41,21 +42,25 @@
 
 
   $('#start').on('click', function() {
-    int = setInterval(updateAddress, 5000);
+    int = setInterval(updateAddress, 3000);
 
   });
 
   function updateAddress() {
+    console.log(count);
     console.log($('.listing:eq('+count+')').find('.lat').text());
     var latlng = new google.maps.LatLng($('.listing:eq('+count+')').find('.lat').text(), $('.listing:eq('+count+')').find('.lng').text());
     geocoder = new google.maps.Geocoder();
-    county = '';
-    city = '';
-    zip = '';
-    address = '';
+    console.log(count);
     geocoder.geocode({'latLng': latlng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {
+                county = '';
+                city = '';
+                zip = '';
+                address = '';
+                console.log("count?:" + count);
+                console.log(latlng);
                 for (j = 0; j < results[0].address_components.length; j++) {
                   if (results[0].address_components[j].types[0] == 'postal_code') {
                     zip = results[0].address_components[j].short_name
@@ -66,9 +71,13 @@
                   if (results[0].address_components[j].types[0] == 'administrative_area_level_2') {
                     county = results[0].address_components[j].short_name;
 
-                    county = county.replace(' County', '')
+                    county = county.replace(' County', '');
                   }
                 }
+                console.log(county);
+                console.log(city);
+                console.log(zip);
+                console.log(results[0].formatted_address.replace(', USA', ''));
                 $.ajax({
                     url: "/listings/"+$('.listing:eq('+count+')').find('.id').text(),
                     method: 'PATCH',
@@ -85,6 +94,7 @@
       clearInterval(int);
     }
     else {
+      console.log('dsgsdfsd');
       count++;
     }
   }

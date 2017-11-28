@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def test
-    @listings = Listing.where(:zip_code=>nil)
+    @listings = Listing.where.not(:zip_code=>nil)
   end
 
   def map
@@ -47,6 +47,7 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
     elsif params.has_key?(:listing)
       @listings = Listing.where(:slug=>params[:listing])
+      puts @listings.first
       place = @listings.first.place
       @title = "#{params[:listing]}"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{place.city}'>#{place.city}</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
