@@ -80,12 +80,14 @@
 
   $(document).on('click', '.listing-title', function() {
     details = $(this).next();
+
     if(details.is(':visible')) {
       details.hide();
       map.setZoom(zoom);
       infoWindow.close();
     }
     else {
+      $('.listing-info').hide();
       details.show();
 
       $(this).toggleClass('expanded');
