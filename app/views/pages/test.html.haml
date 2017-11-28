@@ -6,9 +6,12 @@
       #search-recommendations
     %br
     %button#start start
+
 .row
-  -@counties.each do |county|
-    .large-4.medium-4.small-12.columns{:class=>cycle("odd", "even")}
+  -@counties.each_with_index do |county,k|
+    -if k % 3 == 0
+      .clear
+    .large-4.medium-4.small-12.columns.county
       %h4=link_to county.county, 'map/county/'+county.county
       %ul
       -county.places.each do |place|
@@ -106,13 +109,17 @@
     border-bottom: 1px solid gray;
     cursor: pointer;
   }
+  .clear {
+    clear:both;
+  }
   .suggestion:hover {
     border-bottom: 1px solid gray;
     color: green;
   }
 
-  .odd {
+  .county {
     background-color: #eee;
+    margin-bottom: 14px;
   }
   .even {
     background-color: #ede;

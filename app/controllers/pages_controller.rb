@@ -38,9 +38,10 @@ class PagesController < ApplicationController
 
       @lists = @category.lists.approved
     elsif params.has_key?(:city)
+      city = Place.find_by_city(params[:city])
       @listings = Listing.approved.where('city ILIKE (?)',"#{params[:city]}%").order(title: :asc)
       @title = "#{params[:city]} Listings"
-      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{params[:city]}'>#{params[:city].titleize}</a>".html_safe
+      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/county/#{city.county.county}'>#{city.county.county.titleize}</a> > <a href='/map/place/#{params[:city]}'>#{params[:city].titleize}</a>".html_safe
     elsif params.has_key?(:county)
       @county = County.find_by_county(params[:county])
       @listings = @county.listings
