@@ -27,3 +27,4 @@ var infoWindowContent;
 var infoWindow;
 var zoom;
 var mapOptions;
+var geocoder;

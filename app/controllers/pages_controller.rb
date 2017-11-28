@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def test
-    @listings = Listing.where.not(:zip_code=>nil)
+    @listings = Listing.where.not(:zip_code=>nil).reverse
   end
 
   def map
