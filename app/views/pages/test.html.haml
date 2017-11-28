@@ -6,13 +6,13 @@
       #search-recommendations
     %br
     %button#start start
-
--@listings.each do |l|
-  .listing
-    .name=l.title
-    .id=l.id
-    .lat=l.latitude
-    .lng=l.longitude
+.row
+  -@counties.each do |county|
+    .large-4.medium-4.small-12.columns{:class=>cycle("odd", "even")}
+      %h4=link_to county.county, 'map/county/'+county.county
+      %ul
+      -county.places.each do |place|
+        %li=link_to "#{place.city} (#{place.listings.approved.count})", '/map/place/'+place.city
 
 
 
@@ -109,4 +109,16 @@
   .suggestion:hover {
     border-bottom: 1px solid gray;
     color: green;
+  }
+
+  .odd {
+    background-color: #eee;
+  }
+  .even {
+    background-color: #ede;
+  }
+
+  li {
+    list-style-type:none;
+    margin-left: 8px;
   }

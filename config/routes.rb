@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get '/map/category/:category(/:list(/:tag))' => 'pages#map', :as => :map
   get '/map/tag/:tag' => 'pages#map'
   get '/map/place/:city' => 'pages#map'
+  get '/map/county/:county' => 'pages#map'
   get '/map/listing/:listing' => 'pages#map'
   get '/category/:id' => 'categories#show', :as => :load_category
   get '/list/:id' => 'lists#show', :as => :load_list

@@ -15,6 +15,7 @@ class PagesController < ApplicationController
 
   def test
     @listings = Listing.where(:zip_code=>nil)
+    @counties = County.left_joins(:listings).group(:id).order('COUNT(listings.id) DESC')
   end
 
   def map
@@ -40,6 +41,11 @@ class PagesController < ApplicationController
       @listings = Listing.approved.where('city ILIKE (?)',"#{params[:city]}%").order(title: :asc)
       @title = "#{params[:city]} Listings"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{params[:city]}'>#{params[:city].titleize}</a>".html_safe
+    elsif params.has_key?(:county)
+      @county = County.find_by_county(params[:county])
+      @listings = @county.listings
+      @title = "#{params[:county]} Listings"
+      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/county/#{params[:county]}'>#{params[:county].titleize}</a>".html_safe
 
     elsif params.has_key?(:tag)
       @listings = Listing.approved.tagged_with(params[:tag]).order(title: :asc)
