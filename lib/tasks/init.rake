@@ -148,19 +148,27 @@ namespace :init do
   end
 
   task :set_places => :environment do
-    txt = ''
     Place.delete_all
-    #open the test queries document, which is close to what we need, but does not contain the proper intent ID or reference codes
-    #we will go through it and find the appropriate intents, and write a new csv containing these values
+    County.delete_all
+    Listing.all.each do |l|
+      county = l.county
+      city = l.city
+      zip = l.zip_code
+      new_county = County.where(:county=>county).first
+      new_place = Place.where(:city=>city)
+      if new_county.present?
+      else
+        new_county = County.create(:county=>county)
 
-    file = File.open("lib/csv/places.csv")
-    file.each do |line,v|
-
-      attrs = line.split(",")
-      break if attrs[0].length == 0
-      if attrs[0].length > 1 && attrs[1].present?
-        Place.create(:zipcode=>attrs[0], :city=>attrs[1].downcase)
       end
+      if new_place.first.present?
+
+      else
+        Place.create(:city=>city, :zipcode=>zip, :county_id => new_county.id)
+
+      end
+
     end
   end
+
 end
