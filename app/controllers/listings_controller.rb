@@ -82,7 +82,6 @@ class ListingsController < ApplicationController
 
     if params.has_key?(:category)
       @category = Category.find_by_slug(params[:category])
-      puts @category
       @lists = @category.lists.approved
       @title = "#{@category.name}"
       @breadcrumb << " > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>"
