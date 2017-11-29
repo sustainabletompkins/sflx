@@ -15,6 +15,11 @@
     $.get('/category/'+selection);
 
   });
+  $('.county-select').on('click', function() {
+    var selection = $(this).data('county-slug');
+    $.get('/county/'+selection);
+
+  });
   var dropdowns = $(".dropdown");
 
   // Onclick on a dropdown, toggle visibility

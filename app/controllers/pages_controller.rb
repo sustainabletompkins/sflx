@@ -20,6 +20,7 @@ class PagesController < ApplicationController
 
   def map
     @categories = Category.all
+    @counties = County.all
 
     @listings = []
     if params.has_key?(:list)

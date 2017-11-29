@@ -13,6 +13,19 @@
             %li
               %a.category-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
 
+    %dl.dropdown
+      %dt
+        %a
+          %span=@county.present? ? @county.county : 'Finger Lakes'
+      %dd
+        %ul
+          %li
+            %a.county-select{:'data-county-slug'=>'all'}
+              All Finger Lakes
+
+          -@counties.each do |cat|
+            %li
+              %a.county-select{:'data-county-slug'=>"#{cat.county}"}=cat.county
     #lists
       #category-lists
         -if @lists.present?

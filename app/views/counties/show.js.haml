@@ -1,0 +1,7 @@
+markers = #{raw @hash};
+infoWindowContent = #{raw @info};
+$('.category-title').html("#{@breadcrumb}");
+$('#current-listings').html("#{j render @listings}");
+window.history.pushState("object or string", "#{@title}", "#{@url}");
+setMapOnAll(null);
+showMarkers();

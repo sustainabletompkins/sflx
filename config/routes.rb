@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :counties, :only=>[:show]
+
   resources :users, :only=>[:destroy, :edit, :index]
 
   get '/admin' => 'pages#admin'
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
   get '/map/county/:county' => 'pages#map'
   get '/map/listing/:listing' => 'pages#map'
   get '/category/:id' => 'categories#show', :as => :load_category
+  get '/county/:id' => 'counties#show', :as => :load_county
   get '/list/:id' => 'lists#show', :as => :load_list
   get '/list/:id/tags/:tag' => 'lists#tagged', :as => :load_list_by_tag
   get '/autocomplete/tags' => 'listings#autocomplete_tags'
