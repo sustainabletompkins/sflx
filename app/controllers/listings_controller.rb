@@ -68,7 +68,7 @@ class ListingsController < ApplicationController
   def filter
     @breadcrumb = "<a href='/map/all'>All</a>"
 
-    if params[:county] == 'All' || !params.has_key?(:county)
+    if params[:county] == 'all' || !params.has_key?(:county)
       @listings = Listing.approved
     else
       @county = County.find_by_county(params[:county])
@@ -80,7 +80,12 @@ class ListingsController < ApplicationController
     end
 
 
-    if params.has_key?(:category)
+    if params[:category] == 'all' || !params.has_key?(:category)
+      @cat_listings = Listing.approved.order(title: :asc)
+      @breadcrumb << " > <a href='/map'>All</a>"
+      @url = "/map"
+      @listings = @listings & @cat_listings
+    else
       @category = Category.find_by_slug(params[:category])
       @lists = @category.lists.approved
       @title = "#{@category.name}"
