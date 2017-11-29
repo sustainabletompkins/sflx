@@ -12,6 +12,13 @@
 
   var dropdowns = $(".dropdown");
 
+  $('.category-select').on('click', function() {
+    $('#category-choices').data('val',$(this).data('cat-slug'));
+  });
+  $('.county-select').on('click', function() {
+    $('#county-choices').data('val',$(this).data('county-slug'));
+  });
+
   // Onclick on a dropdown, toggle visibility
   dropdowns.find("dt").click(function(){
     dropdowns.find("dd ul").hide();
@@ -39,15 +46,7 @@
       $(this).addClass('selected');
     }
 
-    if($('#county-choices').find('.selected').length > 0) {
-      var county = $('#county-choices').find('.selected')[1].text;
-    }
-
-    if($('#category-choices').find('.selected').length > 0) {
-      var category = $('#category-choices').find('.selected')[1].text;
-    }
-
-    $.get('/listings/filter', {county:county, category:category});
+    $.get('/listings/filter', {county:$('#county-choices').data('val'), category:$('#category-choices').data('val')});
 
     // Close dropdown
     $(this).parents("ul").hide();

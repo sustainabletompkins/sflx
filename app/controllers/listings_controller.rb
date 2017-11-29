@@ -68,32 +68,28 @@ class ListingsController < ApplicationController
   def filter
     @breadcrumb = "<a href='/map/all'>All</a>"
 
-    if params.has_key?(:county)
-      if params[:county] == 'All'
-        @listings = Listing.approved
-      else
-        @county = County.find_by_county(params[:county])
-        @places = @county.places
-        @listings = @county.listings.approved.order(title: :asc)
-        @title = "#{@county.county}"
-        @breadcrumb << " > <a href='/map/county/#{@county.county}'>#{@county.county}</a>"
-        @url = "/map/county/#{@county.county}"
-      end
+    if params[:county] == 'All' || !params.has_key?(:county)
+      @listings = Listing.approved
+    else
+      @county = County.find_by_county(params[:county])
+      @places = @county.places
+      @listings = @county.listings.approved.order(title: :asc)
+      @title = "#{@county.county}"
+      @breadcrumb << " > <a href='/map/county/#{@county.county}'>#{@county.county}</a>"
+      @url = "/map/county/#{@county.county}"
     end
 
 
     if params.has_key?(:category)
-      @category = Category.find_by_name(params[:category])
+      @category = Category.find_by_slug(params[:category])
+      puts @category
       @lists = @category.lists.approved
       @title = "#{@category.name}"
       @breadcrumb << " > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>"
       @cat_listings = @category.listings.order(title: :asc)
-      puts 'heyeyeey'
       @url = "/map/category/#{@category.slug}"
-      puts @listings.inspect
-      puts @cat_listings.inspect
       @listings = @listings & @cat_listings
-      puts @listings.inspect
+
     end
 
     @hash = []
