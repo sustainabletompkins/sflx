@@ -1,31 +1,33 @@
 .row.shadowed{:style=>'background-color: #ffffff;'}
   .large-3.medium-3.small-12.columns
-    %dl.dropdown
+
+    %dl.dropdown#county-choices
+      %dt
+        %a
+          %span=@county.present? ? @county.county : 'Choose a county'
+      %dd
+        %ul
+          %li
+            %a.filter-select{:'data-county-slug'=>'all'}
+              All
+
+          -@counties.each do |cat|
+            %li
+              %a.filter-select{:'data-county-slug'=>"#{cat.county}"}=cat.county
+    %dl.dropdown#category-choices
       %dt
         %a
           %span=@category.present? ? @category.name : 'Choose a category'
       %dd
         %ul
           %li
-            %a.default
+            %a.filter-select{:'data-cat-slug'=>'all'}
+              All
 
           -@categories.each do |cat|
             %li
-              %a.category-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
+              %a.filter-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
 
-    %dl.dropdown
-      %dt
-        %a
-          %span=@county.present? ? @county.county : 'Finger Lakes'
-      %dd
-        %ul
-          %li
-            %a.county-select{:'data-county-slug'=>'all'}
-              All Finger Lakes
-
-          -@counties.each do |cat|
-            %li
-              %a.county-select{:'data-county-slug'=>"#{cat.county}"}=cat.county
     #lists
       #category-lists
         -if @lists.present?

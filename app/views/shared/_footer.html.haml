@@ -10,16 +10,6 @@
 
 :javascript
 
-  $('.category-select').on('click', function() {
-    var selection = $(this).data('cat-slug');
-    $.get('/category/'+selection);
-
-  });
-  $('.county-select').on('click', function() {
-    var selection = $(this).data('county-slug');
-    $.get('/county/'+selection);
-
-  });
   var dropdowns = $(".dropdown");
 
   // Onclick on a dropdown, toggle visibility
@@ -48,6 +38,16 @@
       leSpan.addClass('selected');
       $(this).addClass('selected');
     }
+
+    if($('#county-choices').find('.selected').length > 0) {
+      var county = $('#county-choices').find('.selected')[1].text;
+    }
+
+    if($('#category-choices').find('.selected').length > 0) {
+      var category = $('#category-choices').find('.selected')[1].text;
+    }
+
+    $.get('/listings/filter', {county:county, category:category});
 
     // Close dropdown
     $(this).parents("ul").hide();

@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resources :listings do
     member do
       get 'approve'
+
+    end
+    collection do
+      get 'filter'
     end
   end
 

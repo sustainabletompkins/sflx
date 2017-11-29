@@ -65,6 +65,55 @@ class ListingsController < ApplicationController
     end
   end
 
+  def filter
+    @breadcrumb = "<a href='/map/all'>All</a>"
+
+    if params.has_key?(:county)
+      if params[:county] == 'All'
+        @listings = Listing.approved
+      else
+        @county = County.find_by_county(params[:county])
+        @places = @county.places
+        @listings = @county.listings.approved.order(title: :asc)
+        @title = "#{@county.county}"
+        @breadcrumb << " > <a href='/map/county/#{@county.county}'>#{@county.county}</a>"
+        @url = "/map/county/#{@county.county}"
+      end
+    end
+
+
+    if params.has_key?(:category)
+      @category = Category.find_by_name(params[:category])
+      @lists = @category.lists.approved
+      @title = "#{@category.name}"
+      @breadcrumb << " > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>"
+      @cat_listings = @category.listings.order(title: :asc)
+      puts 'heyeyeey'
+      @url = "/map/category/#{@category.slug}"
+      puts @listings.inspect
+      puts @cat_listings.inspect
+      @listings = @listings & @cat_listings
+      puts @listings.inspect
+    end
+
+    @hash = []
+    @info = []
+    @listings.each do |l|
+      arr = [l.title, l.latitude, l.longitude]
+      html = "<div class='info_content'><h3>#{l.title}</h3><p>#{l.description}</p>"
+      html += "<div class='address'><span>#{l.address}</span>"
+      html += "<div class='website'><a href='#{l.website}'>#{l.website}</a></div></div>" if l.website.present?
+      html += "<div class='phone'><a href='tel:+1#{l.phone.gsub(/\D/, "")}'>#{l.phone}</a></div></div>" if l.phone.present?
+      html += "<div class='email'><a href='mailto:#{l.email}' target='_blank'>#{l.email}</a></div></div>" if l.email.present?
+      @info << [html.html_safe]
+      @hash << arr
+    end
+
+    @breadcrumb = @breadcrumb.html_safe
+    puts @breadcrumb
+
+  end
+
   def autocomplete_tags
     @tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{params[:q]}%")
     respond_to do |format|
