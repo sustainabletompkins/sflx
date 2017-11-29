@@ -2,7 +2,8 @@
   .listing-title{:"data-marker-id"=>"#{listing_counter}"}
     =listing.title
 
-  .listing-info
+  .listing-info{:style=>"display:none;"}
+    %h4=listing.title
     %span
       =link_to "http://www.sustainablefingerlakes.org/map/listing/#{listing.slug}", "/map/listing/#{listing.slug}"
     %br

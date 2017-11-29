@@ -1,0 +1,268 @@
+.row
+  .large-4.columns
+    #listings
+      %h3.category-title=@breadcrumb
+      #current-listings
+        -if @listings.count > 0
+          =render :partial => 'listings/listing', :collection => @listings, :as =>'listing'
+  .large-8.columns#map-area
+    #map_wrapper
+      #map_canvas.mapping
+    #listing-info
+
+:css
+  #lists {
+    float:left;
+    margin: 10px 0px 0 8px;
+    font-size: .9em;
+  }
+  #map_wrapper {
+      height: 400px;
+
+  }
+  #map-area {
+   background-color: #d8d8da;
+   padding: 0px;
+  }
+  #listings {
+      margin: 15px;
+
+  }
+  #menu-bar {
+    height: 60px;
+    
+  }
+  #map_canvas {
+      width: 100%;
+      height: 100%;
+  }
+  #search-recommendations {
+    margin: 10px;
+    padding: 4px;
+    background-color: #fff;
+    color: black;
+    display:none;
+    position:absolute;
+    z-index: 100;
+  }
+  .suggestion {
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+  }
+  .clear {
+    clear:both;
+  }
+  .suggestion:hover {
+    border-bottom: 1px solid gray;
+    color: green;
+  }
+
+
+%script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
+%script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
+/ only if you need custom infoboxes
+
+:javascript
+
+
+
+  $(document).on('click', '.list-name', function() {
+    var selection = $(this).parent().data('list-slug');
+    $.get({
+      url: '/list/'+selection
+    });
+
+  });
+  $(document).on('click', '.list-tag', function() {
+    list = $(this).parent().parent();
+    console.log(list.data('list-id'));
+    var tag = $(this).data('tag-id');
+    $.get('/list/'+list.data('list-slug')+'/tags/'+tag);
+
+  });
+
+  $(document).on('click', '.listing-title', function() {
+    details = $(this).next();
+    var html = details.clone();
+    $('#listing-info').html(details);
+    $('#listing-info').find('.listing-info').show();
+    map.setZoom(zoom);
+    infoWindow.close();
+    zoom = map.getZoom();
+    map.setZoom(15);
+    google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
+
+  });
+  $(document).on('click', '.show-suggestion', function() {
+    $(this).parent().parent().find('.tag-suggest').toggle();
+    $(this).parent().parent().find('.tag-suggest').find('input').focus();
+    $(this).find('input').focus();
+    listing_id = $(this).data('listing-id')
+    $(this).parent().parent().find('.tag-suggest').keypress(function(e) {
+      if(e.which == 13) {
+        $.get("#{suggest_existing_tag_path}", {list_id:listing_id , name: $(this).find('input').val()});
+        $(this).find('input').val('');
+      }
+    });
+
+  });
+  $(document).on('click', '.show-list-suggestion', function() {
+    $(this).children('.list-suggest').show();
+    $(this).find('input').focus();
+    cat_id = $(this).data('category-id');
+    $(this).children('.list-suggest').keypress(function(e) {
+      if(e.which == 13) {
+        $.get("#{create_list_path}", {cat_id:cat_id , name: $(this).find('input').val()});
+        $(this).find('input').val('');
+      }
+    });
+
+  });
+
+  $('#listing-search').keyup(function() {
+    if($(this).val().length > 1) {
+      $('#search-recommendations').show();
+      $.ajax({
+        url: '/autocomplete/search/',
+        data: {q:$(this).val()},
+        dataType: 'json'
+      })
+      .done(function(data) {
+        $('#search-recommendations').empty();
+        $.each(data, function(index, value) {
+          $('#search-recommendations').append("<div class='suggestion' data-type='"+value.type+"' data-slug='"+value.slug+"'><span>"+value.name+"</span></div>");
+        });
+      });
+      return false;
+    }
+  });
+
+  $(document).on('click', '.suggestion', function() {
+    window.location = $(this).data('slug');
+  });
+
+  $('#search input').bind("enterKey",function(e){
+     $.get('/search/'+$(this).val());
+  });
+  $('#search input').keyup(function(e){
+      if(e.keyCode == 13)
+      {
+          $(this).trigger("enterKey");
+      }
+  });
+  initialize();
+  function setMapOnAll(map) {
+    for (var i = 0; i < gmarkers.length; i++) {
+      gmarkers[i].setMap(null);
+    }
+  }
+  function showMarkers() {
+    gmarkers = [];
+    var bounds = new google.maps.LatLngBounds(null);
+    // Display multiple markers on a map
+
+    for( i = 0; i < markers.length; i++ ) {
+        console.log('sdfds');
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
+        gmarkers.push(marker);
+        infoWindow = new google.maps.InfoWindow(), marker, i;
+        // Allow each marker to have an info window
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
+
+        // Automatically center the map fitting all markers on the screen
+
+    }
+
+    map.fitBounds(bounds);
+    var listener = google.maps.event.addListener(map, "idle", function() {
+
+      if(gmarkers.length == 1) {
+        $('.listing-info').css('display','block');
+        map.setZoom(16);
+      }
+      google.maps.event.removeListener(listener);
+    });
+
+  }
+
+  function initialize() {
+
+
+      mapOptions = {
+          mapTypeId: 'roadmap'
+      };
+
+      // Display a map on the page
+      map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+      map.setTilt(45);
+
+      // Multiple Markers
+      markers = #{raw @hash};
+      infoWindowContent = #{raw @info};
+
+      // Loop through our array of markers & place each one on the map
+      showMarkers();
+
+      $('#listing-search').focus();
+  }
+
+  function removeMarkers()
+  {
+      for (var i = 0; i < gmarkers.length; i++) {
+          gmarkers[i].setMap(null);
+      }
+  }
+   function hideIcon(self) {
+      self.style.backgroundImage = 'none';
+  }
+
+:javascript
+  $( document ).on('keyup','.autocomplete', function() {
+      if($(this).val().length > 2) {
+        $.get('/autocomplete/tags',{q:$(this).val()}, function(data) {
+          $('.autocomplete-options').empty();
+          $('.autocomplete-options').show();
+          $.each(data, function(index,value) {
+            console.log(index,value);
+            $('.autocomplete-options').append('<div class="autocomplete-option">'+value.name+'</div>');
+          });
+
+        });
+      }
+      else {
+        $('.autocomplete-options').empty();
+        $('.autocomplete-options').hide();
+      }
+  });
+  $( document ).on( 'click', '.autocomplete-option', function () {
+    console.log($(this).closest('.tag-suggest').find('.tag-list'));
+    list = $(this).closest('.tag-suggest').find('.tag-list');
+    $.get("#{suggest_existing_tag_path}", {list_id:listing_id, name: $(this).text()});
+    setTimeout(function(){
+        $('.autocomplete').val('');
+        $('.autocomplete').focus();
+
+    }, 100);
+  });
+  $( document ).on( 'click', '.del', function (event) {
+    $(event.target).parent().remove();
+
+    str = '';
+    $('#tag-list').find('.tag').each(function() {
+      str += $(this).attr("value") + ',';
+    });
+    str = str.substring(0,str.length-1);
+    $('#listing_tag_list').val(str);
+    $('.autocomplete').focus();
+  })

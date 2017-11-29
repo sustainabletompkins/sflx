@@ -1,0 +1,91 @@
+!!! 5
+%html{ :lang => "en"}
+  %head{:prefix => "og: http://ogp.me/ns#"}
+    %meta{ :charset => "utf-8" }
+
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
+
+    %title Sustainable Finger Lakes
+
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "vendor/modernizr"
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
+    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyA_C7hQIHn3LK83BsLKrcMLN069o3u7j0M&v=3.13&sensor=false&libraries=places,geometry"
+    = favicon_link_tag "favicon.ico"
+    = csrf_meta_tag
+    =yield :head
+
+
+  %body
+    %div{:style => "margin-top: 10px;"}
+    .row{:style=>'background-color: #8dc640;'}
+      .large-5.columns
+        %h3 Sustainable Finger Lakes
+      .large-7.columns
+        .search-box
+          %input#listing-search{:style=>'font-size: 1.2em; padding: 5px; margin: 10px;', :placeholder=>'search the finger lakes'}
+          #search-recommendations
+    .row#menu-bar
+      .large-3.columns
+        %dl.dropdown
+          #county-choices{:'data-val'=> @county.present? ? @county.county : nil}
+          %dt
+            %a
+              %span=@county.present? ? @county.county : 'County'
+          %dd
+            %ul
+              %li
+                %a.county-select{:'data-county-slug'=>'all'}
+                  All
+
+              -@counties.each do |cat|
+                %li
+                  %a.county-select{:'data-county-slug'=>"#{cat.county}"}=cat.county
+      .large-3.columns
+        %dl.dropdown
+          #category-choices{:'data-val'=> @category.present? ? @category.slug : nil}
+          %dt
+            %a
+              %span=@category.present? ? @category.name : 'Category'
+          %dd
+            %ul
+              %li
+                %a.category-select{:'data-cat-slug'=>'all'}
+                  All
+
+              -@categories.each do |cat|
+                %li
+                  %a.category-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
+      .large-3.columns
+        %dl.dropdown
+          #list-choices{:'data-val'=> @list.present? ? @list.slug : nil}
+          %dt
+            %a
+              %span=@list.present? ? @list.name : 'List'
+          %dd
+            %ul
+              %li
+                %a.list-select{:'data-cat-slug'=>'all'}
+                  All
+              -if @lists.present?
+                -@lists.each do |list|
+                  %li
+                    %a.list-select{:'data-list-slug'=>"#{list.slug}"}=list.name
+      .large-3.columns
+        %dl.dropdown
+          #tag-choices{:'data-val'=> @tag.present? ? @tag.slug : nil}
+          %dt
+            %a
+              %span=@list.present? ? @list.name : 'Tag'
+          %dd
+            %ul
+              %li
+                %a.tag-select{:'data-tag-slug'=>'all'}
+                  All
+              -if @tags.present?
+                -@tags.each do |tag|
+                  %li
+                    %a.tag-select{:'data-tag-slug'=>"#{tag.slug}"}=tag.name
+    #content
+      =yield
+    =render :partial => 'shared/footer'

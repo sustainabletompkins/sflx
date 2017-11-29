@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/admin' => 'pages#admin'
   get '/list' => 'pages#list'
   get '/test' => 'pages#test'
+  get '/new' => 'pages#new'
 
   get '/map/all' => 'pages#map'
   get '/map/category/:category(/:list(/:tag))' => 'pages#map', :as => :map
