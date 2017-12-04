@@ -122,10 +122,13 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/tag/#{params[:tag]}'>##{params[:tag]}</a>".html_safe
     elsif params.has_key?(:listing)
       @listings = Listing.where(:slug=>params[:listing])
-      puts @listings.first
       place = @listings.first.place
       @title = "#{params[:listing]}"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{place.city}'>#{place.city}</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
+    elsif params.has_key?(:q)
+      @listings = Listing.approved.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
+      @title = "Searches for #{params[:q]}"
+      @breadcrumb = "<a href='/map/all'>All</a> > Search results for #{params[:q]}".html_safe
     else
       @listings = Listing.approved
       @title = "All Finger Lakes Sustainability Listings"
