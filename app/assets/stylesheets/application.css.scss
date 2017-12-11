@@ -569,8 +569,12 @@ input {
   margin-bottom: 35px;
   border-radius: 10px;
   width: 320px;
-  text-shadow: 2px 2px #000;
+
   cursor:pointer;
+}
+.category-button {
+  text-shadow: 2px 2px #000;
+
 }
 .category-button:hover, #home-search:hover input {
 
