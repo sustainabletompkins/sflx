@@ -2,7 +2,7 @@ class ListingsController < ApplicationController
 
   respond_to :html, :js
 
-  before_action :authenticate_user!, :except => [:search,:autocomplete_tags, :autocomplete_search]
+  before_action :authenticate_user!, :except => [:search,:autocomplete_tags, :autocomplete_search,:filter]
 
   def create
 
