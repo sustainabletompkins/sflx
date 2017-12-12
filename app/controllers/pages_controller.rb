@@ -63,7 +63,7 @@ class PagesController < ApplicationController
     if @listings.count > 0
       @listings.each do |l|
         arr = [l.title, l.latitude, l.longitude]
-        html = "<div class='info_content'><h3>#{l.title}</h3><p>#{l.description}</p>"
+        html = "<div class='info_content' data-listing-id='#{l.id}'><h3>#{l.title}</h3><p>#{l.description}</p>"
         html += "<div class='address'><span>#{l.address}</span>"
         html += "<div class='website'><a href='#{l.website}'>#{l.website}</a></div></div>" if l.website.present?
         html += "<div class='phone'><a href='tel:+1#{l.phone.gsub(/\D/, "")}'>#{l.phone}</a></div></div>" if l.phone.present?
@@ -142,7 +142,7 @@ class PagesController < ApplicationController
     if @listings.count > 0
       @listings.each do |l|
         arr = [l.title, l.latitude, l.longitude]
-        html = "<div class='info_content'><h3>#{l.title}</h3><p>#{l.description}</p>"
+        html = "<div class='info_content' data-listing-id='#{l.id}'><h3>#{l.title}</h3><p>#{l.description}</p>"
         html += "<div class='address'><span>#{l.address}</span>"
         html += "<div class='website'><a href='#{l.website}'>#{l.website}</a></div></div>" if l.website.present?
         html += "<div class='phone'><a href='tel:+1#{l.phone.gsub(/\D/, "")}'>#{l.phone}</a></div></div>" if l.phone.present?

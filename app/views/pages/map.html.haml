@@ -178,8 +178,17 @@
             return function() {
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
+                var dom_nodes = $($.parseHTML(infoWindow.content));
+                $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').show();
             }
         })(marker, i));
+        google.maps.event.addListener(infoWindow,'closeclick',function(){
+          var dom_nodes = $($.parseHTML($(this)[0].content));
+          $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').hide();
+          details.hide();
+          map.setZoom(zoom);
+          infoWindow.close();
+        });
 
         // Automatically center the map fitting all markers on the screen
 
