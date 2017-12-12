@@ -56,3 +56,32 @@
   $(document).bind('click', function(e){
     if (! $(e.target).parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
   });
+
+  $('#listing-search').keyup(function(e) {
+    if($(this).val().length > 1) {
+      if(e.keyCode==13) {
+        $('#query').val($(this).val());
+        $("#search_form").submit();
+      }
+      else {
+        $.ajax({
+          url: '/autocomplete/search/',
+          data: {q:$(this).val()},
+          dataType: 'json'
+        })
+        .done(function(data) {
+          $('#search-recommendations').empty();
+          $('#search-recommendations').show();
+
+          $.each(data, function(index, value) {
+            $('#search-recommendations').append("<div class='suggestion' data-type='"+value.type+"' data-slug='"+value.slug+"'><span>"+value.name+"</span></div>");
+          });
+        });
+        return false;
+      }
+    }
+  });
+
+  $(document).on('click', '.suggestion', function() {
+    window.location = $(this).data('slug');
+  });

@@ -5,7 +5,11 @@
 .row#menu-bar.shadowed
   .large-6.columns
     #search
-      %input{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
+      %input#listing-search{:placeholder=>'search finger lakes',:onchange=>"hideIcon(this);"}
+      #search-recommendations
+      .hidden
+        =form_tag map_search_path, :method => :post, :id=>'search_form' do
+          =hidden_field_tag :q, '', :id=>'query'
   .large-6.columns
     =link_to new_listing_path do
       #add-listing.right

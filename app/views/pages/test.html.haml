@@ -1,6 +1,9 @@
 .row
   .large-12.columns
     %br
+    .hidden
+      =form_tag map_search_path, :method => :post, :id=>'search_form' do
+        =hidden_field_tag :q, '', :id=>'query'
     .search-box
       %input#listing-search{:style=>'font-size: 1.2em; padding: 5px; margin: 10px;', :html=>{:placeholder => "search the finger lakes"}}
       #search-recommendations
@@ -22,20 +25,27 @@
 :javascript
   count = 0;
   var int;
-  $('#listing-search').keyup(function() {
+  $('#listing-search').keyup(function(e) {
+    console.log(e.keyCode);
     if($(this).val().length > 1) {
-      $.ajax({
-        url: '/autocomplete/search/',
-        data: {q:$(this).val()},
-        dataType: 'json'
-      })
-      .done(function(data) {
-        $('#search-recommendations').empty();
-        $.each(data, function(index, value) {
-          $('#search-recommendations').append("<div class='suggestion' data-type='"+value.type+"' data-slug='"+value.slug+"'><span>"+value.name+"</span></div>");
+      if(e.keyCode==13) {
+        $('#query').val($(this).val());
+        $("#search_form").submit();
+      }
+      else {
+        $.ajax({
+          url: '/autocomplete/search/',
+          data: {q:$(this).val()},
+          dataType: 'json'
+        })
+        .done(function(data) {
+          $('#search-recommendations').empty();
+          $.each(data, function(index, value) {
+            $('#search-recommendations').append("<div class='suggestion' data-type='"+value.type+"' data-slug='"+value.slug+"'><span>"+value.name+"</span></div>");
+          });
         });
-      });
-      return false;
+        return false;
+      }
     }
   });
 

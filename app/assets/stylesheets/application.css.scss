@@ -271,7 +271,6 @@ input {
   border: 1px solid #82a04e;
   line-height: 30px;
   margin: 3px;
-  border-radius: 10px;
   font-size: 1.1em;
   font-weight: 400;
   color: white;
@@ -279,6 +278,33 @@ input {
   background-image: image-url('search.png');
   background-repeat: no-repeat;
   text-indent: 30px;
+}
+
+#search-recommendations {
+  position:absolute;
+  z-index: 900;
+  background-color: #391f57;
+  color: #fff;
+  padding: 5px;
+  display:none;
+}
+
+.suggestion {
+  border-bottom: 1px solid gray;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.clear {
+  clear:both;
+}
+.suggestion:hover {
+  border-bottom: 1px solid gray;
+  color: green;
+
+}
+
+.hidden {
+  display:none;
 }
 
 #add-listing{

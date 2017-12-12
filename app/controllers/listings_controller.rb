@@ -126,20 +126,20 @@ class ListingsController < ApplicationController
     suggestions = []
     tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{input}%")
     tags.each do |p|
-      suggestions << {:name=>"##{p.name}", :type=>'tag', :slug=>"map/tag/#{p.name}"}
+      suggestions << {:name=>"##{p.name}", :type=>'tag', :slug=>"/map/tag/#{p.name}"}
     end
     places = Place.where("zipcode LIKE (?) OR city LIKE (?)","#{input}%","#{input}%")
     places.each do |p|
-      suggestions << {:name=>p.city.titleize, :type=>'place', :slug=>"map/place/#{p.city}"}
+      suggestions << {:name=>p.city.titleize, :type=>'place', :slug=>"/map/place/#{p.city}"}
     end
     lists = List.where("name ILIKE (?)","%#{input}%")
     lists.each do |p|
-      suggestions << {:name=>p.name, :type=>'list', :slug=>"/map/category/#{p.category.name}/#{p.name}"}
+      suggestions << {:name=>p.name, :type=>'list', :slug=>"/map/category/#{p.category.slug}/#{p.slug}"}
     end
 
     cats = Category.where("name ILIKE (?)","%#{input}%")
     cats.each do |p|
-      suggestions << {:name=>p.name, :type=>'category', :slug=>"/map/category/#{p.name}"}
+      suggestions << {:name=>p.name, :type=>'category', :slug=>"/map/category/#{p.slug}"}
     end
     suggestions = suggestions.uniq { |e| e[:name] }
     respond_to do |format|
