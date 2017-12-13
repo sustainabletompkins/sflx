@@ -56,4 +56,13 @@ namespace :maintain do
     end
   end
 
+  task :assign_empty_places => :environment do
+    Listing.where(:place_id=>nil).each do |l|
+      p = Place.where(:zipcode=>l.zip_code)
+      if p.first.present?
+        p.first.listings << l
+      end
+    end
+  end
+
 end
