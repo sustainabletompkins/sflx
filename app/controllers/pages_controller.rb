@@ -112,7 +112,7 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/county/#{city.county.county}'>#{city.county.county.titleize}</a> > <a href='/map/place/#{params[:city]}'>#{params[:city].titleize}</a>".html_safe
     elsif params.has_key?(:county)
       @county = County.find_by_county(params[:county])
-      @listings = @county.listings
+      @listings = @county.listings.approved.order(title: :asc)
       @title = "#{params[:county]} Listings"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/county/#{params[:county]}'>#{params[:county].titleize}</a>".html_safe
 
@@ -130,7 +130,7 @@ class PagesController < ApplicationController
       @title = "Searches for #{params[:q]}"
       @breadcrumb = "<a href='/map/all'>All</a> > Search results for #{params[:q]}".html_safe
     else
-      @listings = Listing.approved
+      @listings = Listing.approved.order(title: :asc)
       @title = "All Finger Lakes Sustainability Listings"
       @breadcrumb = "<a href='/map/all'>All</a>".html_safe
     end

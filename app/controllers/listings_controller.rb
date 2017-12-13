@@ -69,7 +69,7 @@ class ListingsController < ApplicationController
     @breadcrumb = "<a href='/map/all'>All</a>"
 
     if params[:county] == 'all' || !params.has_key?(:county)
-      @listings = Listing.approved
+      @listings = Listing.approved.order(title: :asc)
     else
       @county = County.find_by_county(params[:county])
       @places = @county.places
@@ -90,20 +90,20 @@ class ListingsController < ApplicationController
       @lists = @category.lists.approved
       @title = "#{@category.name}"
       @breadcrumb << " > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>"
-      @cat_listings = @category.listings.order(title: :asc)
+      @cat_listings = @category.listings.approved.order(title: :asc)
       @url = "/map/category/#{@category.slug}"
       @listings = @listings & @cat_listings
 
     end
 
     if params[:list] == 'all' || !params.has_key?(:list)
-      @list_listings = Listing.approved
+      @list_listings = Listing.approved.order(title: :asc)
       @listings = @listings & @list_listings
     else
       @list = List.find_by_slug(params[:list])
       @title = "#{@list.name}"
       @breadcrumb << " > <a href='/map/category/#{@category.slug}/#{@list.slug}'>#{@list.name}</a>"
-      @list_listings = @list.listings.order(title: :asc)
+      @list_listings = @list.listings.approved.order(title: :asc)
       @url = "/map/category/#{@category.slug}/#{@list.slug}"
       @listings = @listings & @list_listings
 
