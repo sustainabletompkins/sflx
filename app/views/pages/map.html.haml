@@ -99,17 +99,9 @@
     details = $(this).next();
 
     if(details.is(':visible')) {
-      details.hide();
-      map.setZoom(zoom);
-      infoWindow.close();
+      google.maps.event.trigger(infoWindow, 'closeclick');
     }
     else {
-      $('.listing-info').hide();
-      details.show();
-
-      $(this).toggleClass('expanded');
-      zoom = map.getZoom();
-      map.setZoom(15);
       google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
     }
 
@@ -159,7 +151,7 @@
   }
   function showMarkers() {
     gmarkers = [];
-    var bounds = new google.maps.LatLngBounds(null);
+    bounds = new google.maps.LatLngBounds(null);
     // Display multiple markers on a map
 
     for( i = 0; i < markers.length; i++ ) {
@@ -178,8 +170,11 @@
             return function() {
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
+
+                $('.listing-info').hide();
                 var dom_nodes = $($.parseHTML(infoWindow.content));
                 $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').show();
+
                 zoom = map.getZoom();
                 map.setZoom(16);
             }

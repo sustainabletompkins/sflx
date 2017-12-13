@@ -26,5 +26,6 @@ var gmarkers = [];
 var infoWindowContent;
 var infoWindow;
 var zoom;
+var bounds;
 var mapOptions;
 var geocoder;
