@@ -61,6 +61,25 @@ namespace :maintain do
       p = Place.where(:zipcode=>l.zip_code)
       if p.first.present?
         p.first.listings << l
+      else
+        county = l.county
+        city = l.city
+        zip = l.zip_code
+        new_county = County.where(:county=>county).first
+        new_place = Place.where(:city=>city).first
+        if new_county.present?
+        else
+          new_county = County.create(:county=>county)
+
+        end
+        if new_place.present?
+
+        else
+          new_place = Place.create(:city=>city, :zipcode=>zip, :county_id => new_county.id)
+
+
+        end
+        new_place.listings << l 
       end
     end
   end
