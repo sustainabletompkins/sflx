@@ -180,15 +180,16 @@
                 infoWindow.open(map, marker);
                 var dom_nodes = $($.parseHTML(infoWindow.content));
                 $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').show();
+                zoom = map.getZoom();
+                map.setZoom(16);
             }
         })(marker, i));
         google.maps.event.addListener(infoWindow,'closeclick',function(){
           var dom_nodes = $($.parseHTML($(this)[0].content));
           $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').hide();
-          details.hide();
+          infoWindow.close();
           map.setZoom(zoom);
           map.fitBounds(bounds);
-          infoWindow.close();
         });
 
         // Automatically center the map fitting all markers on the screen
