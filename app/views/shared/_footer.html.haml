@@ -14,6 +14,7 @@
 
   $('.category-select').on('click', function() {
     $('#category-choices').data('val',$(this).data('cat-slug'));
+    $('#list-choices').data('val');
   });
   $('.county-select').on('click', function() {
     $('#county-choices').data('val',$(this).data('county-slug'));

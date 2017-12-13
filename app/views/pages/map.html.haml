@@ -187,6 +187,7 @@
           $('#listing_'+dom_nodes.data('listing-id')).find('.listing-info').hide();
           details.hide();
           map.setZoom(zoom);
+          map.fitBounds(bounds);
           infoWindow.close();
         });
 
