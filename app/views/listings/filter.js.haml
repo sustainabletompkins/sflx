@@ -1,13 +1,10 @@
-console.log('test');
 markers = #{raw @hash};
 infoWindowContent = #{raw @info};
 $('.category-title').html("#{@breadcrumb}");
 $(".list").removeClass('active');
 $('#current-listings').html("#{j render @listings}");
 $('#category-lists').html("#{j render @lists}");
-if("#{@list.present?}") {
 $("#list_#{@list.id}").addClass('active');
-}
 window.history.pushState("object or string", "#{@title}", "#{@url}");
 setMapOnAll(null);
 showMarkers();

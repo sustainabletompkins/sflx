@@ -35,6 +35,7 @@ body,h1,h2,h3,h4,h5, button, .button, input {
 /* Variables */
 $width: 15em; // dropdown width
 $height: 2.5em; // dropdown height
+$line-height: 2em; // dropdown height
 $ajust: 1em; // left & right padding in dropdown menu
 $radius: 3px;
 
@@ -127,11 +128,11 @@ main{
     span{
       font-size: .9em;
       display: block;
-      padding: 0 $ajust;
+      padding: 0 0 0 5px;
       color: #00703c;
       line-height: $height;
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHo+AACAQQAA+MoAAIC0AAB48QAA9RwAADw3AAAbzhlfIT4AAACJSURBVHjajNAxCsJAEEbhb5cU4i0sbHIaL6IQTxFPo4VeROwXQs4gKW1cWJZEM90wj5l5f0jDeMXBunqENIw7vLD9A09oIxL6FdsvSCENI2zwxH4BTmgxxeJc92P76cuIpRBuc6K45yZWwzPeleixBOLMr30tWgJZuqwcQJNFy2GzkHeHUMPwGQChFSPmzlJ1WgAAAABJRU5ErkJggg==) no-repeat scroll right center;
-      border-right: $ajust solid transparent;
+      border-right: 4px solid transparent;
       cursor: pointer;
     }
   }
@@ -143,8 +144,8 @@ main{
     ul {
       display: none;
       position: absolute;
-      left: 0;
-      top: -$height;
+      right: 0;
+      top: 5px;
       width: 100%;
 
       list-style: none;
@@ -165,7 +166,7 @@ main{
       display: block;
       padding: 0 $ajust;
 
-      line-height: $height;
+      line-height: $line-height;
       text-decoration: none;
 
       &:hover{

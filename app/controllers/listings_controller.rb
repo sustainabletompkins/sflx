@@ -96,9 +96,11 @@ class ListingsController < ApplicationController
 
     end
 
-    if params[:list] == 'all' || !params.has_key?(:list)
+    if params[:list] == '' || !params.has_key?(:list)
       @list_listings = Listing.approved.order(title: :asc)
       @listings = @listings & @list_listings
+      @list = List.new
+      @list.id = 0
     else
       @list = List.find_by_slug(params[:list])
       @title = "#{@list.name}"

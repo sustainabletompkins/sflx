@@ -14,7 +14,8 @@
 
   $('.category-select').on('click', function() {
     $('#category-choices').data('val',$(this).data('cat-slug'));
-    $('#list-choices').data('val');
+    $('#list-choices').data('val','');
+    console.log('hjgh');
   });
   $('.county-select').on('click', function() {
     $('#county-choices').data('val',$(this).data('county-slug'));
@@ -24,10 +25,12 @@
   dropdowns.find("dt").click(function(){
     dropdowns.find("dd ul").hide();
     $(this).next().children().toggle();
+
   });
 
   // Clic handler for dropdown
   dropdowns.find("dd ul li a").click(function(){
+    console.log('hjhfggh');
     var leSpan = $(this).parents(".dropdown").find("dt a span");
 
     // Remove selected class
