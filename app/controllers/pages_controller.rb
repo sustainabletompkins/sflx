@@ -91,12 +91,12 @@ class PagesController < ApplicationController
 
     @listings = []
     if params.has_key?(:list)
-      list = List.find_by_slug(params[:list])
-      @listings = list.listings.approved.order(title: :asc)
+      @list = List.find_by_slug(params[:list])
+      @listings = @list.listings.approved.order(title: :asc)
       @category = Category.find_by_slug(params[:category])
       @lists = @category.lists.approved
-      @title = "[#{@category.name}] #{list.name} Listings"
-      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.slug}'>#{@category.name}</a> > <a href='/map/category/#{@category.slug}/#{list.slug}'>#{list.name}</a>".html_safe
+      @title = "[#{@category.name}] #{@list.name} Listings"
+      @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.slug}'>#{@category.name}</a> > <a href='/map/category/#{@category.slug}/#{@list.slug}'>#{@list.name}</a>".html_safe
 
     elsif params.has_key?(:category)
       @category = Category.find_by_slug(params[:category])

@@ -46,7 +46,7 @@
       $(this).addClass('selected');
     }
 
-    $.get('/listings/filter', {county:$('#county-choices').data('val'), category:$('#category-choices').data('val')});
+    $.get('/listings/filter', {county:$('#county-choices').data('val'), category:$('#category-choices').data('val'), list:$('#list-choices').data('val')});
 
     // Close dropdown
     $(this).parents("ul").hide();

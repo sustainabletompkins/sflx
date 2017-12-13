@@ -31,6 +31,7 @@
               %a.category-select{:'data-cat-slug'=>"#{cat.slug}"}=cat.name
 
     #lists
+      #list-choices{:'data-val'=> @list.present? ? @list.slug : nil}
       #category-lists
         -if @lists.present?
           =render @lists
@@ -81,10 +82,9 @@
 :javascript
 
   $(document).on('click', '.list-name', function() {
-    var selection = $(this).parent().data('list-slug');
-    $.get({
-      url: '/list/'+selection
-    });
+    $('#list-choices').data('val',$(this).parent().data('list-slug'));
+    $.get('/listings/filter', {county:$('#county-choices').data('val'), category:$('#category-choices').data('val'), list:$('#list-choices').data('val')});
+
 
   });
   $(document).on('click', '.list-tag', function() {

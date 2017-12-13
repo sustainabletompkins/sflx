@@ -96,6 +96,18 @@ class ListingsController < ApplicationController
 
     end
 
+    if params[:list] == 'all' || !params.has_key?(:list)
+      @list_listings = Listing.approved
+      @listings = @listings & @list_listings
+    else
+      @list = List.find_by_slug(params[:list])
+      @title = "#{@list.name}"
+      @breadcrumb << " > <a href='/map/category/#{@category.slug}/#{@list.slug}'>#{@list.name}</a>"
+      @list_listings = @list.listings.order(title: :asc)
+      @url = "/map/category/#{@category.slug}/#{@list.slug}"
+      @listings = @listings & @list_listings
+
+    end
     @hash = []
     @info = []
     @listings.each do |l|
