@@ -6,6 +6,7 @@
   .large-8.columns
     %h3 Approve Listings
     -Listing.inactive.order(title: :asc).each do |listing|
+      %hr
       %div{:id=>"listing-#{listing.id}"}
         =render :partial=> 'listings/basic_listing', :locals => {listing: listing}
         =link_to 'approve', approve_listing_path(listing), :remote => :true, :confirm => 'you sure?'
@@ -13,6 +14,10 @@
         =link_to 'delete', listing_path(listing), :method => :delete, :remote => :true, :confirm => 'you sure you want to delete'
         &nbsp|&nbsp
         =link_to 'edit', edit_listing_path(listing), :confirm => 'you sure you want to delete'
+        &nbsp|&nbsp
+        =link_to 'view', "/map/listing/#{listing.slug}"
+      %hr
+      %br
   .large-4.columns
     %h3 Approve New Tags
     -ActsAsTaggableOn::Tag.where(:active=>:false).order(name: :asc).each do |tag|

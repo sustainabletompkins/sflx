@@ -7,4 +7,3 @@
     %span=link_to listing.phone, "tel:+1#{listing.phone.gsub(/\D/, '')}"
     %span=link_to listing.email, "mailto:#{listing.email}"
     =render :partial=>'tags/tag', :collection=>listing.tags.where(:active => :true), :as => :tag
-    %hr
