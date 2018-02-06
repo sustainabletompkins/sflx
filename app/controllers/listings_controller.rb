@@ -81,6 +81,11 @@ class ListingsController < ApplicationController
   def update
     @listing = Listing.find(params[:id])
     if @listing.update_attributes(listing_params)
+      address_chunks = @listing.address.split(',')
+      @listing.address = address_chunks[0] + ', ' + address_chunks[1]
+      slug = @listing.title.downcase.gsub(/['&+.\/]/,'').gsub('  ',' ').gsub(' ','-')
+      @listing.slug = slug
+      @listing.save
       render 'edited'
     end
   end
