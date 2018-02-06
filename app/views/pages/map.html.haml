@@ -1,5 +1,7 @@
 .row.shadowed{:style=>'background-color: #ffffff;'}
-  .large-3.medium-3.small-12.columns
+  #filter-toggle
+    hey
+  #filter-col.large-3.medium-3.small-12.columns
 
     %dl.dropdown
       #county-choices{:'data-val'=> @county.present? ? @county.county : nil}
@@ -104,10 +106,9 @@
     else {
       google.maps.event.trigger(gmarkers[$(this).data('marker-id')], 'click');
     }
-
-
-
   });
+
+
   $(document).on('click', '.show-suggestion', function() {
     $(this).parent().parent().find('.tag-suggest').toggle();
     $(this).parent().parent().find('.tag-suggest').find('input').focus();

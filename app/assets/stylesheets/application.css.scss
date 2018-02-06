@@ -699,3 +699,19 @@ input label {
 .pending-title {
   color: blue;
 }
+
+#filter-toggle {
+  display:none;
+}
+@media (max-width:400px) {
+  #filter-col {
+    display:none;
+  }
+  #filter-toggle {
+    display:block;
+    position: absolute;
+    top: 250px;
+    left: 10px;
+    z-index: 500;
+  }
+}

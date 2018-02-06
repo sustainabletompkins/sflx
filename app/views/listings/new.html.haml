@@ -67,6 +67,7 @@
       e.preventDefault();
       valid = false;
       $('#notice').empty();
+      $('#listing_title').val($.trim($('#listing_title').val()));
       if($('#listing_phone').val().length == 14) {
         console.log('valid phone');
         valid = true;

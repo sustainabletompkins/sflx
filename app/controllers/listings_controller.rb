@@ -10,9 +10,10 @@ class ListingsController < ApplicationController
 
     @listing = Listing.create(listing_params)
     current_user.listings << @listing
-    @listing.address = @listing.address[0..-20]
+    address_chunks = @listing.address.split(',')
+    @listing.address = address_chunks[0] + ', ' + address_chunks[1]
     @listing.active = true if current_user.email == 'info@sustainablefingerlakes.org'
-    slug = @listing.title.downcase.gsub(/['&+]/,'').gsub('  ',' ').gsub(' ','-')
+    slug = @listing.title.downcase.gsub(/['&+.\/]/,'').gsub('  ',' ').gsub(' ','-')
     @listing.slug = slug
     if @listing.save
       p = Place.where(:zipcode=>@listing.zip_code)
