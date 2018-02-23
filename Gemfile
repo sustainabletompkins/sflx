@@ -32,6 +32,7 @@ gem 'acts-as-taggable-on', '~> 5.0'
 gem 'gmaps4rails'
 
 gem 'devise'
+gem 'meta-tags'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

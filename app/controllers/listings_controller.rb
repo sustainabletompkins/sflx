@@ -47,6 +47,8 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.find_by_slug(params[:id])
+    set_meta_tags title: "#{@listing.title} | Sustainable Finger Lakes", description: "#{@listing.description.truncate(50, separator: ' ')}",keywords: "#{@listing.tag_list}"
+
 
     @title = "#{@listing.title}"
     @breadcrumb = "<a href='/map/all'>All</a> > <a href='/listings/#{@listing.slug}'>#{@listing.title}</a>".html_safe

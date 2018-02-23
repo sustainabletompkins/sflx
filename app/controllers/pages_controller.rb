@@ -86,6 +86,8 @@ class PagesController < ApplicationController
   end
 
   def map
+
+
     @categories = Category.all
     @counties = County.all
 
@@ -99,10 +101,12 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.slug}'>#{@category.name}</a> > <a href='/map/category/#{@category.slug}/#{@list.slug}'>#{@list.name}</a>".html_safe
 
     elsif params.has_key?(:category)
+
       @category = Category.find_by_slug(params[:category])
       @listings = @category.listings.approved.order(title: :asc)
       @title = "#{@category.name} Listings"
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/category/#{@category.slug}'>#{@category.name}</a>".html_safe
+      set_meta_tags title: "Finger Lakes #{@category.name}", description: 'Connecting the local sustainability movement',keywords: 'green, building, justice, economy, transportation, climate, energy, environment, directory, listings, ithaca, tompkins, seneca, rochester, syracuse'
 
       @lists = @category.lists.approved
     elsif params.has_key?(:city)
@@ -123,7 +127,8 @@ class PagesController < ApplicationController
     elsif params.has_key?(:listing)
       @listings = Listing.where(:slug=>params[:listing])
       place = @listings.first.place
-      @title = "#{params[:listing]}"
+      set_meta_tags title: "#{@listings.first.title} | Sustainable #{place.city}", description: "#{@listings.first.description.truncate(30, ' ')}",keywords: "#{@listings.first.tag_list}"
+
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{place.city}'>#{place.city}</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
     elsif params.has_key?(:q)
       @listings = Listing.approved.where("lower(title) LIKE ? OR lower(description) LIKE ?", "%#{params[:q].downcase}%","%#{params[:q].downcase}%").order(title: :asc)
@@ -131,7 +136,8 @@ class PagesController < ApplicationController
       @breadcrumb = "<a href='/map/all'>All</a> > Search results for #{params[:q]}".html_safe
     else
       @listings = Listing.approved.order(title: :asc)
-      @title = "All Finger Lakes Sustainability Listings"
+      set_meta_tags title: 'Sustainable Finger Lakes', description: 'Connecting the local sustainability movement',keywords: 'green, building, justice, economy, transportation, climate, energy, environment, directory, listings, ithaca, tompkins, seneca, rochester, syracuse'
+
       @breadcrumb = "<a href='/map/all'>All</a>".html_safe
     end
 
