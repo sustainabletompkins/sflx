@@ -1,6 +1,4 @@
 .row.shadowed{:style=>'background-color: #ffffff;'}
-  #filter-toggle
-    hey
   #filter-col.large-3.medium-3.small-12.columns
 
     %dl.dropdown
@@ -96,6 +94,10 @@
     $.get('/list/'+list.data('list-slug')+'/tags/'+tag);
 
   });
+
+  $('.menu-toggle').on('click', function() {
+    $('#filter-col').toggleClass('active');
+  })
 
   $(document).on('click', '.listing-title', function() {
     details = $(this).next();

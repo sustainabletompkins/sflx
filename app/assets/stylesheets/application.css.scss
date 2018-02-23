@@ -47,10 +47,6 @@ $green: #2ecc71;
 $purple: #6e2d90;
 $header-green: #8dc640;
 $background-green: #00703c;
-#391f57
-#d8d8da
-#398e67
-
 
 /* Common style */
 *{ box-sizing: border-box; }
@@ -703,15 +699,27 @@ input label {
 #filter-toggle {
   display:none;
 }
-@media (max-width:400px) {
+@media (max-width:640px) {
+  #header-img {
+    width: 400px;
+  }
+  #header {
+    height: 155px;
+  }
   #filter-col {
     display:none;
+  }
+  #filter-col.active {
+    display:block;
   }
   #filter-toggle {
     display:block;
     position: absolute;
-    top: 250px;
-    left: 10px;
+    top: -5px;
+    left: 5px;
     z-index: 500;
+    i {
+      color:#391f57;
+    }
   }
 }
