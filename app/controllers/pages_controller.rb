@@ -166,5 +166,8 @@ class PagesController < ApplicationController
     @count = Listing.all.count
   end
 
+  def verification
+    send_file 'lib/D8ED1EF714439F15DBADDE1BD9534EC2.txt'
+  end
 
 end

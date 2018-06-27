@@ -52,4 +52,6 @@ Rails.application.routes.draw do
   get '/tags/:id/approve-existing' => 'tags#approve_existing', :as => :approve_existing_tag
 
   delete '/tags/:id/delete-suggestion' => 'tags#destroy_existing', :as => :tag_suggestion
+
+  get '.well-known/pki-validation/:filename' => 'pages#verification'
 end
