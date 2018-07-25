@@ -127,7 +127,7 @@ class PagesController < ApplicationController
     elsif params.has_key?(:listing)
       @listings = Listing.where(:slug=>params[:listing])
       place = @listings.first.place
-      set_meta_tags title: "#{@listings.first.title} | Sustainable #{place.city}", description: "#{@listings.first.description.truncate(30, ' ')}",keywords: "#{@listings.first.tag_list}"
+      set_meta_tags title: "#{@listings.first.title} | Sustainable #{place.city}", description: "#{@listings.first.description.truncate(30, separator: ' ')}",keywords: "#{@listings.first.tag_list}"
 
       @breadcrumb = "<a href='/map/all'>All</a> > <a href='/map/place/#{place.city}'>#{place.city}</a> > <a href='/map/listing/#{params[:listing]}'>##{@listings.first.title}</a>".html_safe
     elsif params.has_key?(:q)
