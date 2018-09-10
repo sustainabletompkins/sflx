@@ -112,6 +112,7 @@ class ListingsController < ApplicationController
       @breadcrumb << " > <a href='/map'>All</a>"
       @url = "/map"
       @listings = @listings & @cat_listings
+      @lists = List.all
     else
       @category = Category.find_by_slug(params[:category])
       @lists = @category.lists.approved
@@ -131,9 +132,10 @@ class ListingsController < ApplicationController
     else
       @list = List.find_by_slug(params[:list])
       @title = "#{@list.name}"
-      @breadcrumb << " > <a href='/map/category/#{@category.slug}/#{@list.slug}'>#{@list.name}</a>"
+      cat = @category.present? ? @category.slug : 'all'
+      @breadcrumb << " > <a href='/map/category/#{cat}/#{@list.slug}'>#{@list.name}</a>"
       @list_listings = @list.listings.approved.order(title: :asc)
-      @url = "/map/category/#{@category.slug}/#{@list.slug}"
+      @url = "/map/category/#{cat }/#{@list.slug}"
       @listings = @listings & @list_listings
 
     end
