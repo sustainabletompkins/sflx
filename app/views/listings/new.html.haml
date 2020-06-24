@@ -44,7 +44,7 @@
         %h4 Add Tags
         %label Tag relevant keywords or topics
         #tag-list
-        %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+        %input{:type => 'text', :id => 'tags', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
         .autocomplete-options
         =f.hidden_field :tag_list
         -@tags.each do |tag|
@@ -67,6 +67,8 @@
       e.preventDefault();
       valid = false;
       $('#notice').empty();
+      // we don't actually need this field
+      $('#tags').remove();
       $('#listing_title').val($.trim($('#listing_title').val()));
       if($('#listing_phone').val().length == 14) {
         console.log('valid phone');
